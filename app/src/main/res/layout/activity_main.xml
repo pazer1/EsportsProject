@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PartThreeActivity">
+    tools:context=".MainActivity">
 
 
     <android.support.design.widget.AppBarLayout
@@ -14,8 +14,6 @@
         android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -30,20 +28,12 @@
                 android:id="@+id/tv_title"
                 android:text="Today ESports"
                 android:textSize="25sp"
-                android:layout_marginRight="20dp"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </android.support.v7.widget.Toolbar>
-        <android.support.v7.widget.SearchView
-            android:id="@+id/saerchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:iconifiedByDefault="false"
-            >
 
-        </android.support.v7.widget.SearchView>
+
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
