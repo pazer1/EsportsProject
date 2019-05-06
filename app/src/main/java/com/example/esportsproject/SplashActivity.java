@@ -1,6 +1,9 @@
 package com.example.esportsproject;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -31,14 +34,17 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        ProgressBar progressBar = findViewById(R.id.loading_spinner);
-        ApiCall apiCall = new ApiCall();
-        apiCall.excute(progressBar);
-        progressBar.setVisibility(View.INVISIBLE);
 
-        Intent intent = new Intent(this,MainActivity.class);
-        startActivity(intent);
-        finish();
+        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(cm.getActiveNetworkInfo() == null){
+            Toast.makeText(this, "인터넷을 연결해야 사용 가능합니다", Toast.LENGTH_SHORT).show();
+            finish();
+        }else{
+            ProgressBar progressBar = findViewById(R.id.loading_spinner);
+            progressBar.setVisibility(View.VISIBLE);
+            ApiCall apiCall = new ApiCall();
+            apiCall.excute(progressBar);
+        }
     }
 }
 //          검증

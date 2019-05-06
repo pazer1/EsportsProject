@@ -53,6 +53,16 @@
         </android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>
 
+    <ProgressBar
+        android:id="@+id/main_progress"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/progressColor"
+        android:indeterminateTintMode="src_atop"
+        android:visibility="visible"
+        />
+
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"

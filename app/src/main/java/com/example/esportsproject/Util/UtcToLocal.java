@@ -31,4 +31,37 @@ public class UtcToLocal {
         }
     }
 
+    public String dettailTime(String changeTime){
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd HH:mm");
+        TimeZone tz = TimeZone.getDefault();
+        String locTime;
+        try {
+            Date date = inputFormat.parse(changeTime);
+            long milliseconds = date.getTime();
+            int offset = tz.getOffset(milliseconds);
+            locTime= outputFormat.format(milliseconds+offset);
+            return locTime;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+    }
+
+    public long tiemToMill(String changeTime){
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("MM-dd HH:mm");
+        TimeZone tz = TimeZone.getDefault();
+        String locTime;
+        try {
+            Date date = inputFormat.parse(changeTime);
+            long milliseconds = date.getTime();
+            int offset = tz.getOffset(milliseconds);
+            long timeToMill = milliseconds+offset;
+            return timeToMill;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
+        }
 }

@@ -1,6 +1,10 @@
 package com.example.esportsproject.GetApi;
 
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -8,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.esportsproject.Global.Match;
 import com.example.esportsproject.Global.Matches;
+import com.example.esportsproject.MainActivity;
 import com.example.esportsproject.Util.UtcToLocal;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -30,6 +35,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
+import static android.support.v4.content.ContextCompat.startActivity;
+
 public class ApiCall {
 
     private static ApiCall mInstance;
@@ -39,9 +46,7 @@ public class ApiCall {
     ProgressBar progressBar;
 
     public ApiCall getInstance(){
-        if(mInstance == null){
-            mInstance = new ApiCall();
-        }
+        if(mInstance == null) mInstance = new ApiCall();
         return mInstance;
     }
 
@@ -72,6 +77,8 @@ public class ApiCall {
                       matches.get(begin_time).add(match);
                 }
             }
+            Intent intent = new Intent(progressBar.getContext(),MainActivity.class);
+            startActivity(progressBar.getContext(),intent,new Bundle());
 //            검증
 //            Set keyset = matches.keySet();
 //            Iterator it = keyset.iterator();
@@ -88,10 +95,29 @@ public class ApiCall {
 
     public JsonArray getJsonText(){
         JsonParser parser = new JsonParser();
+        JsonArray jArr = new JsonArray();
         String jsonPage = getStringFromUrl("http://dipdoo.dothome.co.kr/Esports/matches.json");
+        if(jsonPage.equals(null)){
+            Log.d("jsonPage",jsonPage+"");
+            new Handler().sendEmptyMessageDelayed(100,2000);
+        }
+        Log.d("jsonPage",jsonPage+"");
         JsonElement element = parser.parse(jsonPage);
-        JsonArray jArr = element.getAsJsonArray();
+        Log.d("element",element+"");
+        if (element instanceof JsonObject) {
+            new Handler().sendEmptyMessageDelayed(100,2000);
+            jArr = element.getAsJsonArray();
+        } else if (element instanceof JsonArray) {
+            jArr =  element.getAsJsonArray();
+        }
         return jArr;
+    }
+
+    private class Handler extends android.os.Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            getJsonText();
+        }
     }
 
     public String getStringFromUrl(String pUrl){

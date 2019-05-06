@@ -1,8 +1,9 @@
 package com.example.esportsproject.Global;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Match {
+public class Match implements Serializable {
 
     /**
      * begin_at : null
@@ -238,7 +239,7 @@ public class Match {
         this.results = results;
     }
 
-    public static class LeagueBean {
+    public static class LeagueBean implements Serializable{
         /**
          * id : 1
          * image_url : null
@@ -314,7 +315,7 @@ public class Match {
         }
     }
 
-    public static class LiveBean {
+    public static class LiveBean implements Serializable{
         /**
          * opens_at : null
          * supported : true
@@ -350,7 +351,7 @@ public class Match {
         }
     }
 
-    public static class SerieBean {
+    public static class SerieBean implements Serializable {
         /**
          * begin_at : null
          * description : null
@@ -496,7 +497,7 @@ public class Match {
         }
     }
 
-    public static class TournamentBean {
+    public static class TournamentBean implements Serializable{
         /**
          * begin_at : null
          * end_at : null
@@ -602,7 +603,7 @@ public class Match {
         }
     }
 
-    public static class VideogameBean {
+    public static class VideogameBean implements Serializable{
         /**
          * id : 1
          * name : LoL
@@ -638,7 +639,7 @@ public class Match {
         }
     }
 
-    public static class GamesBean {
+    public static class GamesBean implements Serializable {
         /**
          * begin_at : null
          * finished : null
@@ -723,7 +724,7 @@ public class Match {
             this.winner_type = winner_type;
         }
 
-        public static class WinnerBean {
+        public static class WinnerBean implements Serializable{
             /**
              * id : null
              * type : null
@@ -750,7 +751,7 @@ public class Match {
         }
     }
 
-    public static class OpponentsBean {
+    public static class OpponentsBean implements Serializable{
         /**
          * opponent : {"first_name":null,"hometown":null,"id":1,"image_url":null,"last_name":null,"name":"string","role":null,"slug":null}
          * type : Player
@@ -775,7 +776,7 @@ public class Match {
             this.type = type;
         }
 
-        public static class OpponentBean {
+        public static class OpponentBean implements Serializable{
             /**
              * first_name : null
              * hometown : null
@@ -862,7 +863,7 @@ public class Match {
         }
     }
 
-    public static class ResultsBean {
+    public static class ResultsBean implements Serializable{
         /**
          * score : 0
          * team_id : 1
