@@ -33,7 +33,7 @@ public class UtcToLocal {
 
     public String dettailTime(String changeTime){
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        SimpleDateFormat outputFormat = new SimpleDateFormat("dd HH:mm");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm");
         TimeZone tz = TimeZone.getDefault();
         String locTime;
         try {

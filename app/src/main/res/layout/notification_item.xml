@@ -4,7 +4,7 @@
     android:weightSum="10"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="64dp">
+    android:layout_height="60dp">
 
 
     <RelativeLayout
@@ -60,7 +60,7 @@
             android:background="@drawable/yumi_background"
             android:id="@+id/view_image"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="40dp"
             android:layout_centerVertical="true"
             android:layout_width="40dp"
             android:layout_height="40dp" />

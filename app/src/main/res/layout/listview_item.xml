@@ -102,20 +102,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <ImageView
+                android:id="@+id/iv_youtube"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/youtube_social_icon_white"
                 android:layout_below="@id/tv_result"
-                android:id="@+id/iv_twitch"
                 android:layout_width="35dp"
                 android:layout_height="35dp" />
 
             <ImageView
+                android:id="@+id/iv_twitch"
                 android:layout_margin="10dp"
-                android:layout_toRightOf="@id/iv_twitch"
+                android:layout_toRightOf="@id/iv_youtube"
                 android:layout_below="@id/tv_result"
                 android:background="@drawable/twitch_icon"
-                android:id="@+id/iv_youtube"
                 android:layout_width="35dp"
                 android:layout_height="35dp" />
             <ImageView

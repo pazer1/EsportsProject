@@ -71,10 +71,6 @@ public class MainActivity extends AppCompatActivity {
         else isIntalled.setTwitch(false);
         if(isPackageInstalled("com.google.android.youtube",this)) isIntalled.setYoutube(true);
         else isIntalled.setYoutube(false);
-
-
-        Toast.makeText(this, isIntalled.isTwitch()+"twitch", Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, isIntalled.isYoutube()+"youtube", Toast.LENGTH_SHORT).show();
     }
 
     private boolean isPackageInstalled(String pakagename, Context context){

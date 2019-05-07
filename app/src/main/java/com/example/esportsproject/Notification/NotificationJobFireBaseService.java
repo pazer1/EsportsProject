@@ -28,18 +28,19 @@ public class NotificationJobFireBaseService extends JobService {
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(NotificationJobFireBaseService.this,matchid,intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                    manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),pendingIntent);
+                    manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+30000,pendingIntent);
                 }else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-                    manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),pendingIntent);
+                    manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+30000,pendingIntent);
                 }else{
-                    manager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),pendingIntent);
+                    manager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+30000,pendingIntent);
                 }
                 return false;
+
             }
 
             @Override
             public boolean onStopJob(@NonNull com.firebase.jobdispatcher.JobParameters job) {
-
+                jobFinished(job,false);
                 return false;//리스케쥴 필요
             }
 
