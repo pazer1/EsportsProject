@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.example.esportsproject.Adapter.RecyclerAdapter;
 import com.example.esportsproject.Global.NotificationSave;
@@ -38,17 +39,18 @@ public class MainFragment extends Fragment {
         return mainFragment;
     }
 
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        RecyclerView recyclerView = (RecyclerView)inflater.inflate(R.layout.fragment_recycler_item,container,false);
+        RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_recycler_item,container,false);
         setupRecyclerView(recyclerView);
         return recyclerView;
     }
 
     private void setupRecyclerView(RecyclerView recyclerView){
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        NotificationSave notificationSave = NotificationSave.getInstance();
         RecyclerAdapter recyclerAdapter = new RecyclerAdapter(createItemList(),matchList,NotificationSave.getInstance());
         recyclerView.setAdapter(recyclerAdapter);
     }

@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -71,10 +72,6 @@ public class MainActivity extends AppCompatActivity {
         else isIntalled.setTwitch(false);
         if(isPackageInstalled("com.google.android.youtube",this)) isIntalled.setYoutube(true);
         else isIntalled.setYoutube(false);
-
-
-        Toast.makeText(this, isIntalled.isTwitch()+"twitch", Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, isIntalled.isYoutube()+"youtube", Toast.LENGTH_SHORT).show();
     }
 
     private boolean isPackageInstalled(String pakagename, Context context){
@@ -113,7 +110,8 @@ public class MainActivity extends AppCompatActivity {
     private void initToolbar(){
         setSupportActionBar(toolbar);
         setTitle(getString(R.string.app_name));
-        PagerAdapter pagerAdapter = new com.example.esportsproject.Adapter.PagerAdapter(getSupportFragmentManager());
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        PagerAdapter pagerAdapter = new com.example.esportsproject.Adapter.PagerAdapter(fragmentManager);
         if(matches.size() >0){
             Iterator it = matches.keySet().iterator();
             String kecode;
