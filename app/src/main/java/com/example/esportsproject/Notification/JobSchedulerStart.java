@@ -2,6 +2,7 @@ package com.example.esportsproject.Notification;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
@@ -18,6 +19,7 @@ public class JobSchedulerStart {
     public static void start(Context context, long timeTomill, String begin_at, String team1Name, String team2Name, String team1Img, String team2Img,String matchId,String tag){
         Bundle bundle = new Bundle();
         bundle.putLong("time",timeTomill);
+
         bundle.putString("team1Name",team1Name);
         bundle.putString("team1Img",team1Img);
         bundle.putString("team2Name",team2Name);
