@@ -30,7 +30,8 @@
             android:id="@+id/leaguName"
             android:text="LCK"
             android:gravity="center"
-            android:layout_weight="3"
+            android:maxLines="1"
+            android:layout_weight="4"
             android:layout_width="0dp"
             android:layout_height="match_parent" />
     </LinearLayout>
@@ -90,44 +91,44 @@
             android:gravity="center_horizontal"
             android:layout_weight="3"
             android:layout_width="0dp"
-            android:padding="10dp"
             android:layout_height="match_parent">
             <TextView
-                android:text="match_name"
+                android:text="asdasdasdasdasdasdasdasdasdasdasdasd"
                 android:id="@+id/tv_result"
                 android:layout_centerHorizontal="true"
-                android:maxLines="15"
+                android:maxLength="40"
+                android:maxLines="2"
                 android:textAlignment="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <ImageView
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/youtube_social_icon_white"
-                android:layout_below="@id/tv_result"
-                android:id="@+id/iv_twitch"
-                android:layout_width="35dp"
-                android:layout_height="35dp" />
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_youtube"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_marginLeft="35dp"-->
+                <!--android:background="@drawable/youtube_social_icon_white"-->
+                <!--android:layout_below="@id/tv_result"-->
+                <!--android:layout_width="35dp"-->
+                <!--android:layout_height="35dp" />-->
 
             <ImageView
-                android:layout_margin="10dp"
-                android:layout_toRightOf="@id/iv_twitch"
+                android:id="@+id/iv_twitch"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
                 android:layout_below="@id/tv_result"
                 android:background="@drawable/twitch_icon"
-                android:id="@+id/iv_youtube"
-                android:layout_width="35dp"
-                android:layout_height="35dp" />
+                android:layout_centerVertical="true"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
             <ImageView
                 android:id="@+id/iv_noti"
-                android:layout_below="@id/iv_twitch"
+                android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/notification"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="18dp"
                 android:layout_width="35dp"
                 android:layout_height="35dp" />
         </RelativeLayout>
      </LinearLayout>
-
     </LinearLayout>
 
 </android.support.design.card.MaterialCardView>

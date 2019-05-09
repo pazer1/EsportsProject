@@ -10,36 +10,52 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.firebase.jobdispatcher.JobService;
 
 public class NotificationJobFireBaseService extends JobService {
+
+    private AsyncTask mBackgroundTask;
+
     @Override
     public boolean onStartJob(@NonNull final com.firebase.jobdispatcher.JobParameters job) {
 
-                AlarmManager manager = (AlarmManager)getSystemService(ALARM_SERVICE);
-                Bundle bundle = job.getExtras();
-                int matchid = bundle.getInt("notiid");
-                long notiLong = bundle.getLong("time");
+        mBackgroundTask = new AsyncTask() {
+                    @SuppressLint("WrongThread")
+                    @Override
+                    protected Object doInBackground(Object[] objects) {
+                        AlarmManager manager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                        Bundle bundle = job.getExtras();
+                        int matchid = bundle.getInt("notiid");
+                        long notiLong = bundle.getLong("time");
+                        Log.d("asd",String.valueOf(notiLong));
+                        Intent intent = new Intent(NotificationJobFireBaseService.this,AlarmBrodcastReciever.class);
+                        intent.putExtras(bundle);
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(NotificationJobFireBaseService.this,matchid,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                            manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+notiLong,pendingIntent);
+                        }else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+                            manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+notiLong,pendingIntent);
+                        }else{
+                            manager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+notiLong,pendingIntent);
+                        }
+                        return null;
+                    }
 
-                Intent intent = new Intent(NotificationJobFireBaseService.this,AlarmBrodcastReciever.class);
-                intent.putExtras(bundle);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(NotificationJobFireBaseService.this,matchid,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                    manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),pendingIntent);
-                }else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-                    manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),pendingIntent);
-                }else{
-                    manager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),pendingIntent);
-                }
+                    @Override
+                    protected void onPostExecute(Object o) {
+                        super.onPostExecute(o);
+                    }
+                };
+                mBackgroundTask.execute();
                 return false;
             }
 
             @Override
             public boolean onStopJob(@NonNull com.firebase.jobdispatcher.JobParameters job) {
-
+                jobFinished(job,false);
                 return false;//리스케쥴 필요
             }
 
