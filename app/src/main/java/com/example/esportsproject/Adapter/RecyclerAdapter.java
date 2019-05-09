@@ -15,6 +15,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.transition.Fade;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.esportsproject.DetailFragment;
 import com.example.esportsproject.Global.IsIntalled;
 import com.example.esportsproject.Global.Match;
 import com.example.esportsproject.Global.Matches;
@@ -34,6 +39,7 @@ import com.example.esportsproject.Notification.AlarmBrodcastReciever;
 import com.example.esportsproject.Notification.JobSchedulerStart;
 import com.example.esportsproject.Notification.NotificationJobFireBaseService;
 import com.example.esportsproject.R;
+import com.example.esportsproject.Util.DetailsTransition;
 import com.example.esportsproject.Util.UtcToLocal;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
@@ -74,7 +80,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         VH holder = (VH) viewHolder;
-        final String team1Name,team2Name,team1Img,team2Img,matchId;
+        final String team1Name,team2Name,team1Img,team2Img,matchId,status;
 
         if(matchList.get(i).getOpponents().size() == 2){
             team1Name = matchList.get(i).getOpponents().get(0).getOpponent().getName();
@@ -115,6 +121,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
                 }
             }
         });
+        status = matchList.get(i).getStatus();
         Glide.with(mContext).load(team1Img).into(holder.team1Img);
         Glide.with(mContext).load(team2Img).into(holder.team2Img);
         final String begin_at = matchList.get(i).getBegin_at();
@@ -122,6 +129,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         holder.timeText.setText(detail_begin_at);
         holder.setNoti(begin_at,detail_begin_at,team1Name,team2Name,team1Img,team2Img,matchId);
         holder.leaguName.setText(matchList.get(i).getLeague().getName());
+        holder.setDetailFragment(team1Img,team2Img,team1Name,team2Name,status,matchList.get(i).getTournament().getName(),matchList.get(i).getTournament().getSlug());
     }
 
     @Override
@@ -149,6 +157,28 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
             match_name = itemView.findViewById(R.id.tv_result);
             twitch = itemView.findViewById(R.id.iv_twitch);
             leaguName = itemView.findViewById(R.id.leaguName);
+        }
+
+        public void setDetailFragment(final String team1Img, final String team2Img, final String team1Name, final String team2Name, final String status, final String matchName, final String slug){
+            itemView.setOnClickListener(new View.OnClickListener( ) {
+                @Override
+                public void onClick(View view) {
+                    DetailFragment detailFragment = DetailFragment.getInstance(team1Img,team2Img,team1Name,team2Name,status,matchName,slug);
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                        DetailsTransition detailsTransition = new DetailsTransition();
+                        detailsTransition.setDuration(300000L);
+                        detailsTransition.setStartDelay(300000L);
+//                        detailFragment.setSharedElementEnterTransition(detailsTransition.setDuration(300000L));
+                        detailFragment.setEnterTransition(new Fade().setDuration(300000L));
+                        detailFragment.setExitTransition(new Fade().setDuration(300000L));
+//                        detailFragment.setSharedElementReturnTransition(detailsTransition.setDuration(300000L));
+                    }
+                    FragmentManager fm = ((FragmentActivity)mContext).getSupportFragmentManager();
+                    fm.beginTransaction().addToBackStack(null).replace(R.id.container,detailFragment)
+                           .commit();
+                }
+            });
+
         }
 
         public void setNoti(final String begin_at, final String detail_begin_at, final String team1Name, final String team2Name, final String team1Img, final String team2Img, final String matchId){

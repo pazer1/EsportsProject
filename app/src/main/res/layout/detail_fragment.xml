@@ -29,15 +29,17 @@
         <ImageView
             android:id="@+id/detail_status_img"
             android:scaleType="centerCrop"
+            android:baselineAlignBottom="@id/detail_date"
             android:background="@android:color/holo_blue_dark"
             android:layout_alignParentRight="true"
             android:layout_marginRight="30dp"
+            android:layout_marginTop="5dp"
             android:layout_width="20dp"
             android:layout_height="20dp" />
         <TextView
             android:id="@+id/detail_status"
             android:text="status"
-            android:layout_alignBaseline="@id/detail_status_img"
+            android:layout_alignBaseline="@id/detail_date"
             android:layout_toLeftOf="@id/detail_status_img"
             android:layout_marginRight="5dp"
             android:layout_width="wrap_content"
