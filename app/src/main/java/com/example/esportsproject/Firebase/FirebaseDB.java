@@ -83,7 +83,7 @@ public class FirebaseDB {
 
     }
 
-    public void setVote(String detailMatchId){
+    public void setVote(String detailMatchId,String teamTag){
 
     }
 

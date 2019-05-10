@@ -115,6 +115,7 @@
                     android:gravity="center"
                     android:text="VOTE"
                     android:textAlignment="center"
+                    android:tag=""
                     android:layout_width="50dp"
                     android:layout_height="50dp" />
             </RelativeLayout>
@@ -147,6 +148,7 @@
                 android:id="@+id/detail_team2vote"
                 android:gravity="center"
                 android:text="VOTE"
+                android:tag=""
                 android:background="@android:color/holo_blue_dark"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"

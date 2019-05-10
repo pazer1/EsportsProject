@@ -61,11 +61,13 @@ public class DetailFragment extends Fragment {
         team2NameView.setText(bundle.getString("team2Name"));
         statusView.setText(bundle.getString("status"));
         slugView.setText(bundle.getString("slug"));
+        voteView1.setTag(bundle.getString("team1Name"));
+        voteView2.setTag(bundle.getString("team2Name"));
         voteView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                vote에 태그를 줘서 태그로 처리하자. team1Name? id를 줘서
-                FirebaseDB.getInstance().setVote(bundle.getString("gameId"));
+                FirebaseDB.getInstance().setVote(bundle.getString("gameId"),(String)view.getTag());
             }
         });
 
