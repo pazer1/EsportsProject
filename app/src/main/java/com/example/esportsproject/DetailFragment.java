@@ -13,11 +13,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.esportsproject.Firebase.FirebaseDB;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class DetailFragment extends Fragment {
 
 
-    public static DetailFragment getInstance(String team1Img,String team2Img,String team1name, String team2Name, String status, String matchName, String slug){
+    public static DetailFragment getInstance(String team1Img,String team2Img,String team1name, String team2Name, String status, String matchName, String slug,String gameId){
         DetailFragment detailFragment = new DetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString("team1",team1Img);
@@ -27,6 +29,7 @@ public class DetailFragment extends Fragment {
         bundle.putString("status",status);
         bundle.putString("matchName",matchName);
         bundle.putString("slug",slug);
+        bundle.putString("gameId",gameId);
         detailFragment.setArguments(bundle);
         return detailFragment;
     }
@@ -39,7 +42,7 @@ public class DetailFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Bundle bundle = getArguments();
+        final Bundle bundle = getArguments();
         ImageView team1View = view.findViewById(R.id.detail_team1img);
         ImageView team2View = view.findViewById(R.id.detail_tema2img);
         TextView team1NameView = view.findViewById(R.id.detail_tema1Name);
@@ -47,6 +50,8 @@ public class DetailFragment extends Fragment {
         TextView statusView = view.findViewById(R.id.detail_status);
         TextView matchNameView = view.findViewById(R.id.detail_status);
         TextView slugView = view.findViewById(R.id.detail_slug);
+        ImageView voteView1 = view.findViewById(R.id.detail_team1vote);
+        ImageView voteView2 = view.findViewById(R.id.detail_team1vote);
 
         String team1  = bundle.getString("team1","null1");
         String team2  = bundle.getString("team2","null2");
@@ -56,6 +61,13 @@ public class DetailFragment extends Fragment {
         team2NameView.setText(bundle.getString("team2Name"));
         statusView.setText(bundle.getString("status"));
         slugView.setText(bundle.getString("slug"));
+        voteView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                vote에 태그를 줘서 태그로 처리하자. team1Name? id를 줘서
+                FirebaseDB.getInstance().setVote(bundle.getString("gameId"));
+            }
+        });
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,4 +76,5 @@ public class DetailFragment extends Fragment {
             }
         });
     }
+
 }

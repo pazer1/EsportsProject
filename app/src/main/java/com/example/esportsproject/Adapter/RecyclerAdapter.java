@@ -122,6 +122,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
             }
         });
         status = matchList.get(i).getStatus();
+        String gameId = String.valueOf(matchList.get(i).getId());
         Glide.with(mContext).load(team1Img).into(holder.team1Img);
         Glide.with(mContext).load(team2Img).into(holder.team2Img);
         final String begin_at = matchList.get(i).getBegin_at();
@@ -129,7 +130,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         holder.timeText.setText(detail_begin_at);
         holder.setNoti(begin_at,detail_begin_at,team1Name,team2Name,team1Img,team2Img,matchId);
         holder.leaguName.setText(matchList.get(i).getLeague().getName());
-        holder.setDetailFragment(team1Img,team2Img,team1Name,team2Name,status,matchList.get(i).getTournament().getName(),matchList.get(i).getTournament().getSlug());
+        holder.setDetailFragment(team1Img,team2Img,team1Name,team2Name,status,matchList.get(i).getTournament().getName(),matchList.get(i).getTournament().getSlug(),gameId);
     }
 
     @Override
@@ -159,11 +160,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
             leaguName = itemView.findViewById(R.id.leaguName);
         }
 
-        public void setDetailFragment(final String team1Img, final String team2Img, final String team1Name, final String team2Name, final String status, final String matchName, final String slug){
+        public void setDetailFragment(final String team1Img, final String team2Img, final String team1Name, final String team2Name, final String status, final String matchName, final String slug, final String gameId){
             itemView.setOnClickListener(new View.OnClickListener( ) {
                 @Override
                 public void onClick(View view) {
-                    DetailFragment detailFragment = DetailFragment.getInstance(team1Img,team2Img,team1Name,team2Name,status,matchName,slug);
+                    DetailFragment detailFragment = DetailFragment.getInstance(team1Img,team2Img,team1Name,team2Name,status,matchName,slug,gameId);
                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
                         DetailsTransition detailsTransition = new DetailsTransition();
                         detailsTransition.setDuration(300000L);
