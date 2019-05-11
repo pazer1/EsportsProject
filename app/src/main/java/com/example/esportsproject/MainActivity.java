@@ -19,11 +19,13 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.esportsproject.FirebaseBoard.FirebaseConnect;
 import com.example.esportsproject.GetApi.ApiCall;
 import com.example.esportsproject.Global.IsIntalled;
 import com.example.esportsproject.Global.Match;
 import com.example.esportsproject.Global.Matches;
 import com.example.esportsproject.Global.NotificationSave;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -56,12 +58,14 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabLayout);
         if(matches.size()<=0) {
             new ApiCall().excute(progressBar);
-            Handler handler = new Handler();
+            MainHandler handler = new MainHandler();
             handler.sendEmptyMessageDelayed(404,CheckTime);
         }
         loadMap();
         progressBar.setVisibility(View.GONE);
         initToolbar();
+//       여기서
+        FirebaseConnect.getFirebaseConnect().loadDB();
     }
 
     @Override
@@ -95,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
                 Iterator<String> keysItr = jsonObject.keys();
                 while(keysItr.hasNext()){
                     String key = keysItr.next();
-
                     Boolean value = (Boolean)jsonObject.get(key);
                     outputMap.put(key,value);
                 }
