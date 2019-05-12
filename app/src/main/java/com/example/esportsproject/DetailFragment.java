@@ -9,19 +9,22 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.esportsproject.FirebaseBoard.FirebaseConnect;
-import com.example.esportsproject.NestedScrollingView.LoremIpsumAdapter;
 
 public class DetailFragment extends Fragment implements View.OnClickListener {
 
     String game_id;
+    private boolean mIsShowingCardHeaderShadow;
+
 
     public static DetailFragment getInstance(String team1Img,String team2Img,String team1name, String team2Name, String status, String matchName, String slug,String game_id){
         DetailFragment detailFragment = new DetailFragment();
@@ -45,7 +48,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         ImageView team1View = view.findViewById(R.id.detail_team1img);
         ImageView team2View = view.findViewById(R.id.detail_tema2img);
@@ -76,22 +79,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
         FirebaseConnect.getFirebaseConnect().getVoteView(team1VoteView,team2VoteView,game_id,team1percent,team2percent);
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-//        ScrollNested
-
-        RecyclerView rv = view.findViewById(R.id.detail_board);
-        LinearLayoutManager lm = new LinearLayoutManager(getContext());
-        rv.setLayoutManager(lm);
-        rv.setAdapter(new LoremIpsumAdapter(getContext()));
-        rv.addItemDecoration(new DividerItemDecoration(getContext(),lm.getOrientation()));
-
     }
+
 
 
     @Override
