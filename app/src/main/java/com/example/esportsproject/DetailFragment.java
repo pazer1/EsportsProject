@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.esportsproject.FirebaseBoard.FirebaseConnect;
+import com.example.esportsproject.NestedScrollingView.LoremIpsumAdapter;
 
 public class DetailFragment extends Fragment implements View.OnClickListener {
 
@@ -52,6 +56,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         TextView slugView = view.findViewById(R.id.detail_slug);
         TextView team1VoteView = view.findViewById(R.id.detail_team1vote);
         TextView team2VoteView = view.findViewById(R.id.detail_team2vote);
+        TextView team1percent = view.findViewById(R.id.detail_tema1_percent);
+        TextView team2percent = view.findViewById(R.id.detail_tema2_percent);
 
         String team1  = bundle.getString("team1","null1");
         String team2  = bundle.getString("team2","null2");
@@ -68,7 +74,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         statusView.setText(bundle.getString("status"));
         slugView.setText(bundle.getString("slug"));
 
-        FirebaseConnect.getFirebaseConnect().getVoteView(team1VoteView,team2VoteView,game_id);
+        FirebaseConnect.getFirebaseConnect().getVoteView(team1VoteView,team2VoteView,game_id,team1percent,team2percent);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +82,15 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+
+//        ScrollNested
+
+        RecyclerView rv = view.findViewById(R.id.detail_board);
+        LinearLayoutManager lm = new LinearLayoutManager(getContext());
+        rv.setLayoutManager(lm);
+        rv.setAdapter(new LoremIpsumAdapter(getContext()));
+        rv.addItemDecoration(new DividerItemDecoration(getContext(),lm.getOrientation()));
+
     }
 
 

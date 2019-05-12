@@ -41,7 +41,7 @@ public class FirebaseConnect {
     private int reload = 0;
     private static final String userToke = FirebaseInstanceId.getInstance().getId();
     private Toast myToast;
-    Long voteNum;
+    Long voteNum1,voteNum2;
 
     public static FirebaseConnect getFirebaseConnect() {
         if(firebaseConnect==null)firebaseConnect = new FirebaseConnect();
@@ -78,18 +78,34 @@ public class FirebaseConnect {
         });
     }
 
-    public void getVoteView(final View team1VoteView, View team2VoteView, String game_id){
+    private String calPercent(long team1Long, long team2Long){
+        if(team1Long==0 )return "0%";
+        long sum = team1Long+team2Long;
+        Log.d("sum",sum+"");
+        double percent = (team1Long/(double)sum)*100;
+        Log.d("percent",percent+"");
+        return String.valueOf((int)percent+"%");
+    }
+
+    public void getVoteView(final View team1VoteView, View team2VoteView, String game_id, final View team1Percent, final View team2Percent){
 
         final TextView team1View = (TextView) team1VoteView;
         final TextView team2View = (TextView) team2VoteView;
+        final TextView team1percentView = (TextView)team1Percent;
+        final TextView team2percentView = (TextView)team2Percent;
 
         matchDocument.document(game_id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                voteNum = (Long)documentSnapshot.get("team1Vote");
-                team1View.setText(String.valueOf(voteNum));
-                voteNum = (Long)documentSnapshot.get("team2Vote");
-                team2View.setText(String.valueOf(voteNum));
+                voteNum1 = (Long)documentSnapshot.get("team1Vote");
+                voteNum2 = (Long)documentSnapshot.get("team2Vote");
+                ArrayList tokenList = (ArrayList) documentSnapshot.get("tokenList");
+                if(tokenList.contains(userToke)){
+                    team1View.setText(String.valueOf(voteNum1));
+                    team2View.setText(String.valueOf(voteNum2));
+                    ((TextView) team1percentView).setText(calPercent(voteNum1,voteNum2));
+                    ((TextView) team2percentView).setText(calPercent(voteNum2,voteNum1));
+                }
             }
         });
     }
@@ -103,12 +119,12 @@ public class FirebaseConnect {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     ArrayList tokenList = (ArrayList) task.getResult().get("tokenList");
-                    if(tokenList.contains(userToke)){
-                        myToast=Toast.makeText(context,"투표는 한번만 가능합니다",Toast.LENGTH_SHORT);
-                        myToast.show();
-                        return;
-                    }
-                    Long teamVote = (Long)task.getResult().get("team1Vote")+1;
+//                    if(tokenList.contains(userToke)){
+//                        myToast=Toast.makeText(context,"투표는 한번만 가능합니다",Toast.LENGTH_SHORT);
+//                        myToast.show();
+//                        return;
+//                    }
+                    Long teamVote = (Long)task.getResult().get(teamVoteOrder)+1;
                     myToast=Toast.makeText(context,teamName+"에 투표했습니다.",Toast.LENGTH_SHORT);
                     myToast.show();
                     tokenList.add(userToke);
