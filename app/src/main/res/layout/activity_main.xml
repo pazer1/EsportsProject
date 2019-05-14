@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/container"
+    android:descendantFocusability="blocksDescendants"
     android:background="@drawable/yumi_background"
     tools:context=".MainActivity">
     <android.support.design.widget.CoordinatorLayout

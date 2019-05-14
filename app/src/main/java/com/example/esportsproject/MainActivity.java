@@ -19,13 +19,13 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.esportsproject.Firebase.FirebaseDB;
+import com.example.esportsproject.FirebaseBoard.FirebaseConnect;
 import com.example.esportsproject.GetApi.ApiCall;
 import com.example.esportsproject.Global.IsIntalled;
 import com.example.esportsproject.Global.Match;
 import com.example.esportsproject.Global.Matches;
 import com.example.esportsproject.Global.NotificationSave;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -40,7 +40,7 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static long CheckTime = 10000;
+    private static long CheckTime = 4000;
 
     ProgressBar progressBar;
     Toolbar toolbar;
@@ -64,11 +64,9 @@ public class MainActivity extends AppCompatActivity {
         loadMap();
         progressBar.setVisibility(View.GONE);
         initToolbar();
-//        이닛툴바 까지 끝나면 다시 파이어 베이스 시작
-        FirebaseDB.getInstance().insertDB();
+//       여기서
+        FirebaseConnect.getFirebaseConnect().loadDB();
     }
-
-
 
     @Override
     protected void onResume() {
@@ -101,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
                 Iterator<String> keysItr = jsonObject.keys();
                 while(keysItr.hasNext()){
                     String key = keysItr.next();
-
                     Boolean value = (Boolean)jsonObject.get(key);
                     outputMap.put(key,value);
                 }

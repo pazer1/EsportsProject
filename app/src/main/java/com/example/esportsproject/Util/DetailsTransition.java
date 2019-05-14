@@ -23,8 +23,8 @@ public class DetailsTransition extends TransitionSet {
     private void init(){
         setOrdering(ORDERING_TOGETHER);
         addTransition(new ChangeBounds().
-                setDuration(30000L)).
-                addTransition(new ChangeTransform().setDuration(30000L)).
-                addTransition(new ChangeImageTransform().setDuration(30000L));
+                setDuration(1000L)).
+                addTransition(new ChangeTransform().setDuration(1000L)).
+                addTransition(new ChangeImageTransform().setDuration(1000L));
     }
 }
