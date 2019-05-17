@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
+    android:id="@+id/detail_fragment_container"
     android:orientation="vertical"
     android:background="@android:color/darker_gray"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,6 +11,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/detail_appbar"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,6 +19,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:layout_width="match_parent"
+            android:background="@android:color/white"
             android:layout_height="wrap_content">
             <LinearLayout
                 app:layout_collapseMode="parallax"
@@ -195,15 +198,25 @@
         </LinearLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/detail_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_collapseMode="pin" />
-
-            <ImageView
-                android:background="@drawable/facebook_profile_image"
+            android:background="@android:color/white"
+            app:layout_collapseMode="pin" >
+            <TextView
+                android:text="게시판"
+                android:gravity="center_vertical"
+                android:textStyle="bold"
+                android:textSize="30sp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+        </android.support.v7.widget.Toolbar>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/detail_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
     </android.support.design.widget.AppBarLayout>
 </android.support.design.widget.CoordinatorLayout>

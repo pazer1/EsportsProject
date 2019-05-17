@@ -97,8 +97,8 @@ public class FirebaseConnect {
         matchDocument.document(game_id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                voteNum1 = (Long)documentSnapshot.get("team1Vote");
-                voteNum2 = (Long)documentSnapshot.get("team2Vote");
+                voteNum1 = (Long)documentSnapshot.get("team1Name");
+                voteNum2 = (Long)documentSnapshot.get("team2Name");
                 ArrayList tokenList = (ArrayList) documentSnapshot.get("tokenList");
                 if(tokenList.contains(userToke)){
                     team1View.setText(String.valueOf(voteNum1));
@@ -124,15 +124,26 @@ public class FirebaseConnect {
 //                        myToast.show();
 //                        return;
 //                    }
+
                     Long teamVote = (Long)task.getResult().get(teamVoteOrder)+1;
+                    ArrayList getTokenList = (ArrayList) task.getResult().get("tokenList");
                     myToast=Toast.makeText(context,teamName+"에 투표했습니다.",Toast.LENGTH_SHORT);
                     myToast.show();
-                    tokenList.add(userToke);
+                    if(!tokenList.contains(userToke)){
+                        tokenList.add(userToke);
+                    }
                     matchDocument.document(game_id).update(teamVoteOrder,teamVote);
+
                     matchDocument.document(game_id).update("tokenList",tokenList);
                 }
             }
         });
+
+    }
+
+    public void writeToBoard(){
+
+
 
     }
 
@@ -149,7 +160,6 @@ public class FirebaseConnect {
                     if(matchidList.contains(matchId)){
                         continue;
                     } else {
-
                         matchDocument.document(matchId).set(new FirebaseMatchField());
                     }
                 }
