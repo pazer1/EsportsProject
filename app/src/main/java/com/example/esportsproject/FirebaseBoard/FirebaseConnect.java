@@ -30,6 +30,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -78,6 +79,19 @@ public class FirebaseConnect {
         });
     }
 
+    public void getMessage(String game_id){
+        matchDocument.document(game_id).collection("User").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                ArrayList userList = (ArrayList) queryDocumentSnapshots.getDocuments();
+                for(int i = 0; i < userList.size(); i++){
+                    User user =(User)userList.get(i);
+
+                }
+            }
+        });
+    }
+
     private String calPercent(long team1Long, long team2Long){
         if(team1Long==0 )return "0%";
         long sum = team1Long+team2Long;
@@ -97,8 +111,8 @@ public class FirebaseConnect {
         matchDocument.document(game_id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                voteNum1 = (Long)documentSnapshot.get("team1Vote");
-                voteNum2 = (Long)documentSnapshot.get("team2Vote");
+                voteNum1 = (Long)documentSnapshot.get("team1Name");
+                voteNum2 = (Long)documentSnapshot.get("team2Name");
                 ArrayList tokenList = (ArrayList) documentSnapshot.get("tokenList");
                 if(tokenList.contains(userToke)){
                     team1View.setText(String.valueOf(voteNum1));
@@ -124,10 +138,12 @@ public class FirebaseConnect {
 //                        myToast.show();
 //                        return;
 //                    }
+
+
                     Long teamVote = (Long)task.getResult().get(teamVoteOrder)+1;
                     myToast=Toast.makeText(context,teamName+"에 투표했습니다.",Toast.LENGTH_SHORT);
                     myToast.show();
-                    tokenList.add(userToke);
+                    if (!tokenList.contains(userToke)){tokenList.add(userToke);}
                     matchDocument.document(game_id).update(teamVoteOrder,teamVote);
                     matchDocument.document(game_id).update("tokenList",tokenList);
                 }

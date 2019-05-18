@@ -13,7 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,6 +64,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         TextView team2VoteView = view.findViewById(R.id.detail_team2vote);
         TextView team1percent = view.findViewById(R.id.detail_tema1_percent);
         TextView team2percent = view.findViewById(R.id.detail_tema2_percent);
+        Button button = view.findViewById(R.id.detail_button);
+        EditText et = view.findViewById(R.id.detail_et);
+        ListView listView = view.findViewById(R.id.detail_listView);
 
         String team1  = bundle.getString("team1","null1");
         String team2  = bundle.getString("team2","null2");
@@ -89,11 +95,11 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()){
             case R.id.detail_team1vote:
                 teamName = (String)v.getTag();
-                FirebaseConnect.getFirebaseConnect().teamVote(teamName,game_id,getContext(),"team1Vote");
+                FirebaseConnect.getFirebaseConnect().teamVote(teamName,game_id,getContext(),"team1Name");
                 break;
             case R.id.detail_team2vote:
                 teamName = (String)v.getTag();
-                FirebaseConnect.getFirebaseConnect().teamVote(teamName,game_id,getContext(),"team2Vote");
+                FirebaseConnect.getFirebaseConnect().teamVote(teamName,game_id,getContext(),"team2Name");
         }
     }
 }
