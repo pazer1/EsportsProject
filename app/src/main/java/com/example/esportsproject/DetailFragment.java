@@ -4,24 +4,28 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.esportsproject.Adapter.DetailAdapter;
+import com.example.esportsproject.Adapter.RecyclerAdapter;
 import com.example.esportsproject.FirebaseBoard.FirebaseConnect;
+import com.example.esportsproject.Global.NotificationSave;
+
+import java.util.ArrayList;
 
 public class DetailFragment extends Fragment implements View.OnClickListener {
 
@@ -47,7 +51,48 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return LayoutInflater.from(container.getContext()).inflate(R.layout.detail_fragment,container,false);
+        View view =LayoutInflater.from(container.getContext()).inflate(R.layout.detail_fragment,container,false);
+        setHasOptionsMenu(true);
+
+        RecyclerView detail_recycler = view.findViewById(R.id.detail_recyclerview);
+        setupRecyclerView(detail_recycler);
+        return view;
+
+    }
+    private void setupRecyclerView(RecyclerView recyclerView){
+        ArrayList<String>testString = new ArrayList<>();
+        for(int i =0; i<10; i++){
+            testString.add("aa");
+        }
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        DetailAdapter recyclerAdapter = new DetailAdapter(testString,getContext() );
+        recyclerView.setAdapter(recyclerAdapter);
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu,menu);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_write:
+//                    다이얼로그를 만들어서 send할때 firebased에 가고 여기는 다이얼로그
+               //FirebaseConnect.getFirebaseConnect().writeToBoard(game_id);
+                createWriteFragment();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void createWriteFragment(){
+        WriteFragment writeFragment = WriteFragment.getInstance();
+        FragmentManager fm = getFragmentManager();
+        fm.beginTransaction().addToBackStack(null).add(R.id.detail_fragment_container,writeFragment).addToBackStack(null)
+                .commit();
     }
 
     @Override
@@ -64,9 +109,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         TextView team2VoteView = view.findViewById(R.id.detail_team2vote);
         TextView team1percent = view.findViewById(R.id.detail_tema1_percent);
         TextView team2percent = view.findViewById(R.id.detail_tema2_percent);
-        Button button = view.findViewById(R.id.detail_button);
-        EditText et = view.findViewById(R.id.detail_et);
-        ListView listView = view.findViewById(R.id.detail_listView);
+        Toolbar toolbar = view.findViewById(R.id.detail_toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         String team1  = bundle.getString("team1","null1");
         String team2  = bundle.getString("team2","null2");

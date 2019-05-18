@@ -30,7 +30,6 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -75,19 +74,6 @@ public class FirebaseConnect {
                     }.sendEmptyMessageDelayed(405,2000);
                 }
               checkItHas();
-            }
-        });
-    }
-
-    public void getMessage(String game_id){
-        matchDocument.document(game_id).collection("User").addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                ArrayList userList = (ArrayList) queryDocumentSnapshots.getDocuments();
-                for(int i = 0; i < userList.size(); i++){
-                    User user =(User)userList.get(i);
-
-                }
             }
         });
     }
@@ -139,16 +125,25 @@ public class FirebaseConnect {
 //                        return;
 //                    }
 
-
                     Long teamVote = (Long)task.getResult().get(teamVoteOrder)+1;
+                    ArrayList getTokenList = (ArrayList) task.getResult().get("tokenList");
                     myToast=Toast.makeText(context,teamName+"에 투표했습니다.",Toast.LENGTH_SHORT);
                     myToast.show();
-                    if (!tokenList.contains(userToke)){tokenList.add(userToke);}
+                    if(!tokenList.contains(userToke)){
+                        tokenList.add(userToke);
+                    }
                     matchDocument.document(game_id).update(teamVoteOrder,teamVote);
+
                     matchDocument.document(game_id).update("tokenList",tokenList);
                 }
             }
         });
+
+    }
+
+    public void writeToBoard(){
+
+
 
     }
 
@@ -165,7 +160,6 @@ public class FirebaseConnect {
                     if(matchidList.contains(matchId)){
                         continue;
                     } else {
-
                         matchDocument.document(matchId).set(new FirebaseMatchField());
                     }
                 }

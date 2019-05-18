@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.esportsproject.Global.Match;
 import com.example.esportsproject.Global.Matches;
 import com.example.esportsproject.MainActivity;
+import com.example.esportsproject.SplashActivity;
 import com.example.esportsproject.Util.UtcToLocal;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -45,10 +46,23 @@ public class ApiCall {
     private boolean isCallEnd = false;
     ProgressBar progressBar;
 
-    public ApiCall getInstance(){
+    public static ApiCall getInstance(){
         if(mInstance == null) mInstance = new ApiCall();
         return mInstance;
     }
+
+
+//    public void reStart(){
+//        if(isMainStart<=0){
+//            isMainStart++;
+//            Toast.makeText(progressBar.getContext(), "다시 시작합니다.", Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent(progressBar.getContext(),SplashActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            startActivity(progressBar.getContext(),intent,new Bundle());
+//        }else if(isMainStart>=1){
+//            Toast.makeText(progressBar.getContext(), "111", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     public void excute(ProgressBar progressBar){
         this.progressBar = progressBar;
@@ -77,8 +91,16 @@ public class ApiCall {
                       matches.get(begin_time).add(match);
                 }
             }
+
+            try {
+                Thread.sleep(6000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             Intent intent = new Intent(progressBar.getContext(),MainActivity.class);
             startActivity(progressBar.getContext(),intent,new Bundle());
+
+
 //            검증
 //            Set keyset = matches.keySet();
 //            Iterator it = keyset.iterator();
