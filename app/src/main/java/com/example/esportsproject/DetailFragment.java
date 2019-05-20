@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,17 +13,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.esportsproject.Adapter.DetailAdapter;
-import com.example.esportsproject.Adapter.RecyclerAdapter;
 import com.example.esportsproject.FirebaseBoard.FirebaseConnect;
-import com.example.esportsproject.Global.NotificationSave;
 
 import java.util.ArrayList;
 
@@ -53,20 +49,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =LayoutInflater.from(container.getContext()).inflate(R.layout.detail_fragment,container,false);
         setHasOptionsMenu(true);
-
-        RecyclerView detail_recycler = view.findViewById(R.id.detail_recyclerview);
-        setupRecyclerView(detail_recycler);
         return view;
 
-    }
-    private void setupRecyclerView(RecyclerView recyclerView){
-        ArrayList<String>testString = new ArrayList<>();
-        for(int i =0; i<10; i++){
-            testString.add("aa");
-        }
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        DetailAdapter recyclerAdapter = new DetailAdapter(testString,getContext() );
-        recyclerView.setAdapter(recyclerAdapter);
     }
 
 
@@ -83,16 +67,14 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
             case R.id.menu_write:
 //                    다이얼로그를 만들어서 send할때 firebased에 가고 여기는 다이얼로그
                //FirebaseConnect.getFirebaseConnect().writeToBoard(game_id);
-                createWriteFragment();
+                createWriteDialog();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void createWriteFragment(){
-        WriteFragment writeFragment = WriteFragment.getInstance();
-        FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().addToBackStack(null).add(R.id.detail_fragment_container,writeFragment).addToBackStack(null)
-                .commit();
+    private void createWriteDialog(){
+        AlertDialog.Builder builder = new WriteDialog(getContext(),R.style.WriteDialogTheme,game_id);
+        builder.show();
     }
 
     @Override
@@ -110,6 +92,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         TextView team1percent = view.findViewById(R.id.detail_tema1_percent);
         TextView team2percent = view.findViewById(R.id.detail_tema2_percent);
         Toolbar toolbar = view.findViewById(R.id.detail_toolbar);
+        RecyclerView boardViewPager = view.findViewById(R.id.detail_recyclerview);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         String team1  = bundle.getString("team1","null1");
@@ -128,7 +111,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         slugView.setText(bundle.getString("slug"));
 
         FirebaseConnect.getFirebaseConnect().getVoteView(team1VoteView,team2VoteView,game_id,team1percent,team2percent);
-
+        FirebaseConnect.getFirebaseConnect().getBoard(game_id,boardViewPager,getContext());
     }
 
 

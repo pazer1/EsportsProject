@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TableLayout;
@@ -25,6 +26,7 @@ import com.example.esportsproject.Global.IsIntalled;
 import com.example.esportsproject.Global.Match;
 import com.example.esportsproject.Global.Matches;
 import com.example.esportsproject.Global.NotificationSave;
+import com.example.esportsproject.Util.UtcToLocal;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -33,6 +35,8 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -125,6 +129,21 @@ public class MainActivity extends AppCompatActivity {
         }
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+        if(tabLayout.getTabCount()<=5){
+            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+            tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd");
+        String ss = simpleDateFormat.format(System.currentTimeMillis());
+        View view= LayoutInflater.from(this).inflate(R.layout.today_tab,null);
+        TextView  tv = view.findViewById(R.id.tab_date);
+        tv.setText(ss);
+        for(int i = 0; i<tabLayout.getTabCount(); i++){
+            if(tabLayout.getTabAt(i).getText().equals(ss)){
+                tabLayout.getTabAt(i).select();
+                tabLayout.getTabAt(i).setCustomView(view);
+            }
+        }
     }
 
     @Override

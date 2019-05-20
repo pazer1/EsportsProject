@@ -16,7 +16,7 @@ public class UtcToLocal {
 
     public String getTime(String changeTime){
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        SimpleDateFormat outputFormat = new SimpleDateFormat("yy-MM-dd");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("MM-dd");
         TimeZone tz = TimeZone.getDefault();
         String locTime;
         try {
@@ -29,6 +29,14 @@ public class UtcToLocal {
             e.printStackTrace();
             return e.getMessage();
         }
+    }
+
+    public String getTimeMDHM(){
+        SimpleDateFormat outputFormat = new SimpleDateFormat("M월-dd일 HH:mm");
+        String locTime;
+        long milliseconds = System.currentTimeMillis();
+        locTime= outputFormat.format(milliseconds);
+        return locTime;
     }
 
     public String dettailTime(String changeTime){

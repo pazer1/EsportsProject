@@ -1,35 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:clickable="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:elevation="10dp"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:id="@+id/write_back"
+            android:layout_marginLeft="10dp"
+            android:background="@android:drawable/ic_menu_revert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:background="@drawable/write_background"
         android:layout_width="match_parent"
         android:layout_height="50dp">
-        <android.support.v7.widget.AppCompatEditText
+        <EditText
+            android:id="@+id/wrtie_title_et"
             android:hint="title"
-            android:maxLength="35"
-            android:maxLines="1"
-            android:backgroundTint="@android:color/holo_blue_dark"
-            android:layout_weight="2"
+            android:layout_marginHorizontal="10dp"
+            android:textColor="@android:color/black"
+            android:background="@null"
+            android:singleLine="true"
+            android:maxLength="25"
+            android:layout_weight="3"
             android:layout_width="0dp"
             android:layout_height="match_parent" />
         <!--첨부-->
         <LinearLayout
+            android:id="@+id/write_post"
+            android:clickable="true"
+            android:gravity="center"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent">
-            <ImageView
-                android:background="@color/colorPrimary"
-                android:layout_width="20dp"
-                android:layout_height="20dp" />
+            <TextView
+                android:gravity="center"
+                android:text="POST"
+                android:textColor="@drawable/post_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </LinearLayout>
     </LinearLayout>
-    <android.support.v7.widget.AppCompatEditText
-        android:ellipsize="start"
+    <TextView
+        android:id="@+id/wrtie_text_watcher"
+        android:text="0/200"
+        android:layout_marginEnd="20dp"
+        android:layout_gravity="end"
+        android:textColor="@android:color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/write_background"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/write_content_et"
+        android:textColor="@android:color/black"
+        android:layout_margin="10dp"
+        android:hint="content"
+        android:background="@null"
+        android:maxLength="200"
+        android:gravity="start"
+        android:ellipsize="end"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </EditText>
+    </RelativeLayout>
 </LinearLayout>

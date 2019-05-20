@@ -4,11 +4,16 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.esportsproject.Adapter.BoardAdapter;
+import com.example.esportsproject.ChatMessage.MessageItem;
 import com.example.esportsproject.Global.FirebaseMatchField;
 import com.example.esportsproject.Global.Match;
 import com.example.esportsproject.Global.Matches;
@@ -29,6 +34,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import javax.annotation.Nullable;
@@ -42,6 +48,7 @@ public class FirebaseConnect {
     private static final String userToke = FirebaseInstanceId.getInstance().getId();
     private Toast myToast;
     Long voteNum1,voteNum2;
+    ArrayList<MessageItem> messageItemsList;
 
     public static FirebaseConnect getFirebaseConnect() {
         if(firebaseConnect==null)firebaseConnect = new FirebaseConnect();
@@ -81,9 +88,7 @@ public class FirebaseConnect {
     private String calPercent(long team1Long, long team2Long){
         if(team1Long==0 )return "0%";
         long sum = team1Long+team2Long;
-        Log.d("sum",sum+"");
         double percent = (team1Long/(double)sum)*100;
-        Log.d("percent",percent+"");
         return String.valueOf((int)percent+"%");
     }
 
@@ -119,11 +124,11 @@ public class FirebaseConnect {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     ArrayList tokenList = (ArrayList) task.getResult().get("tokenList");
-//                    if(tokenList.contains(userToke)){
-//                        myToast=Toast.makeText(context,"투표는 한번만 가능합니다",Toast.LENGTH_SHORT);
-//                        myToast.show();
-//                        return;
-//                    }
+                    if(tokenList.contains(userToke)){
+                        myToast=Toast.makeText(context,"투표는 한번만 가능합니다",Toast.LENGTH_SHORT);
+                        myToast.show();
+                        return;
+                    }
 
                     Long teamVote = (Long)task.getResult().get(teamVoteOrder)+1;
                     ArrayList getTokenList = (ArrayList) task.getResult().get("tokenList");
@@ -141,10 +146,51 @@ public class FirebaseConnect {
 
     }
 
-    public void writeToBoard(){
+    public void writeToBoard(final MessageItem messageItem, final Context context){
+        messageItem.setUserToken(userToke);
+        matchDocument.document(messageItem.getGame_id()).collection("User").document(String.valueOf(System.currentTimeMillis())).set(messageItem).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    myToast = Toast.makeText(context, "글이 저장되었습니다.", Toast.LENGTH_SHORT);
+                    myToast.show();
+                }else{
+                    myToast = Toast.makeText(context, "통신이 불안정합니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT);
+                    myToast.show();
+                }
+            }
+        });
+    }
 
+    public void getBoard(String game_id, final RecyclerView boardRecyclerView, final Context context){
 
+        matchDocument.document(game_id).collection("User").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                messageItemsList = new ArrayList<>();
+                if(queryDocumentSnapshots.getDocuments().size()<=0)return;
 
+                for(DocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                    String title  = (String)documentSnapshot.get("title");
+                    String game_id  = (String)documentSnapshot.get("game_id");
+                    String message  = (String)documentSnapshot.get("message");
+                    String time  = (String)documentSnapshot.get("time");
+                    String userToken = (String)documentSnapshot.get("userToken");
+
+                    MessageItem messageItem = new MessageItem(game_id,title,message,time);
+                    messageItem.setUserToken(userToken);
+                    messageItemsList.add(0,messageItem);
+
+                }
+                if(messageItemsList.size()>0){
+                    LinearLayoutManager linearLayout = new LinearLayoutManager(context);
+                    boardRecyclerView.setLayoutManager(linearLayout);
+                    BoardAdapter boardAdapter = new BoardAdapter(context,messageItemsList);
+                    boardRecyclerView.setAdapter(boardAdapter);
+                    boardAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     private void checkItHas(){

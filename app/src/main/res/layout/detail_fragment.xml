@@ -4,10 +4,8 @@
     android:orientation="vertical"
     android:background="@android:color/darker_gray"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:clickable="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:descendantFocusability="blocksDescendants"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.design.widget.AppBarLayout
@@ -212,11 +210,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </android.support.v7.widget.Toolbar>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/detail_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </android.support.v7.widget.RecyclerView>
     </android.support.design.widget.AppBarLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/detail_recyclerview"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
 </android.support.design.widget.CoordinatorLayout>
