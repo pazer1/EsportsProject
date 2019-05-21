@@ -103,8 +103,11 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         team1VoteView.setOnClickListener(this);
         team2VoteView.setOnClickListener(this);
 
-        Glide.with(getContext()).load(team1).into(team1View);
-        Glide.with(getContext()).load(team2).into(team2View);
+        if(!team1.equals("null")) {Glide.with(getContext()).load(team1).into(team1View);
+        }else{team1View.setBackgroundResource(R.drawable.qusetion_mark_tbd);}
+        if(!team2.equals("null")) { Glide.with(getContext()).load(team2).into(team2View);
+        }else{team2View.setBackgroundResource(R.drawable.qusetion_mark_tbd);}
+
         team1NameView.setText(bundle.getString("team1Name"));
         team2NameView.setText(bundle.getString("team2Name"));
         statusView.setText(bundle.getString("status"));

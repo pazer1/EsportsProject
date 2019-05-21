@@ -29,6 +29,7 @@
         <EditText
             android:id="@+id/wrtie_title_et"
             android:hint="title"
+            android:textColorHint="#C303A9F4"
             android:layout_marginHorizontal="10dp"
             android:textColor="@android:color/black"
             android:background="@null"
@@ -75,6 +76,7 @@
         android:id="@+id/write_content_et"
         android:textColor="@android:color/black"
         android:layout_margin="10dp"
+        android:textColorHint="#C303A9F4"
         android:hint="content"
         android:background="@null"
         android:maxLength="200"

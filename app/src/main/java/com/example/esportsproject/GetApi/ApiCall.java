@@ -1,5 +1,7 @@
 package com.example.esportsproject.GetApi;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -99,8 +101,9 @@ public class ApiCall {
             }
             Intent intent = new Intent(progressBar.getContext(),MainActivity.class);
             startActivity(progressBar.getContext(),intent,new Bundle());
+            Context context =progressBar.getContext();
 
-
+            ((Activity)context).finish();
 //            검증
 //            Set keyset = matches.keySet();
 //            Iterator it = keyset.iterator();

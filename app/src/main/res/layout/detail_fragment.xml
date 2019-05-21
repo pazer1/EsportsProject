@@ -26,12 +26,16 @@
                 android:layout_height="wrap_content">
         <RelativeLayout
             android:id="@+id/first"
+            android:background="#6200EE"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:padding="10dp">
 
             <TextView
+                android:textSize="16sp"
+                android:textStyle="bold"
                 android:id="@+id/detail_date"
+                android:textColor="@android:color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -40,6 +44,8 @@
 
             <TextView
                 android:id="@+id/detail_slug"
+                android:textSize="14sp"
+                android:textColor="@android:color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/detail_date"
@@ -47,19 +53,20 @@
                 android:layout_marginTop="5dp"
                 android:text="detail_matchName" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <com.github.abdularis.civ.CircleImageView
                 android:id="@+id/detail_status_img"
+                android:src="@drawable/honey_teemo"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="30dp"
-                android:background="@android:color/holo_blue_dark"
-                android:baselineAlignBottom="@id/detail_date"
-                app:civ_border_width="1dp" />
+                android:baselineAlignBottom="@id/detail_date" />
 
             <TextView
                 android:id="@+id/detail_status"
+                android:textColor="@android:color/white"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/detail_date"
@@ -110,19 +117,22 @@
                >
 
                 <RelativeLayout
+                    android:background="@android:color/white"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:padding="5dp">
 
                     <TextView
+                        android:background="@android:color/holo_red_dark"
                         android:id="@+id/detail_tema1Name"
                         android:layout_width="match_parent"
+                        android:textColor="@android:color/white"
                         android:layout_height="30dp"
                         android:gravity="center"
                         android:maxLines="1"
                         android:text="Skt1"
-                        android:textSize="20sp"
+                        android:textSize="25sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -132,18 +142,22 @@
                         android:layout_above="@id/detail_team1vote"
                         android:layout_margin="2dp"
                         android:gravity="center"
+                        android:textColor="@android:color/holo_red_dark"
                         android:text="투표후 확인"
                         android:textFontWeight="detail_team1_percent"
                         android:textSize="30sp"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:textSize="18sp"
                         android:id="@+id/detail_team1vote"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_alignParentBottom="true"
+                        android:textStyle="bold"
                         android:layout_centerHorizontal="true"
-                        android:background="@android:color/holo_blue_dark"
+                        android:background="@android:color/holo_red_dark"
+                        android:textColor="@android:color/white"
                         android:clickable="true"
                         android:gravity="center"
                         android:tag="team1Name"
@@ -152,19 +166,22 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:background="@android:color/white"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:padding="5dp">
 
                     <TextView
+                        android:background="@android:color/holo_blue_dark"
                         android:id="@+id/detail_tema2Name"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:gravity="center"
                         android:maxLines="1"
+                        android:textColor="@android:color/white"
                         android:text="Skt1"
-                        android:textSize="20sp"
+                        android:textSize="25sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -174,17 +191,21 @@
                         android:layout_above="@id/detail_team2vote"
                         android:layout_margin="2dp"
                         android:gravity="center"
+                        android:textColor="@android:color/holo_blue_dark"
                         android:text="투표후 확인"
                         android:textSize="30sp"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:textSize="18sp"
                         android:id="@+id/detail_team2vote"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
+                        android:textStyle="bold"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:background="@android:color/holo_blue_dark"
+                        android:textColor="@android:color/white"
                         android:clickable="true"
                         android:gravity="center"
                         android:tag="team2Name"
@@ -198,12 +219,13 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/detail_toolbar"
             android:layout_width="match_parent"
+            android:background="#3700b3"
             android:layout_height="?attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:background="@android:color/white"
             app:layout_collapseMode="pin" >
             <TextView
                 android:text="게시판"
+                android:textColor="@android:color/white"
                 android:gravity="center_vertical"
                 android:textStyle="bold"
                 android:textSize="30sp"

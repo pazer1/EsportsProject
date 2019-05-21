@@ -92,13 +92,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
             team1Name = matchList.get(i).getOpponents().get(0).getOpponent().getName();
             team1Img = matchList.get(i).getOpponents().get(0).getOpponent().getImage_url().toString();
             team2Name = "TBD";
-            team2Img = "http://dipdoo.dothome.co.kr/Esports/question_mark.png";
+            team2Img = "null";
 
         }else{
             team1Name = "TBD";
             team2Name = "TBD";
-            team1Img = "http://dipdoo.dothome.co.kr/Esports/question_mark.png";
-            team2Img = "http://dipdoo.dothome.co.kr/Esports/question_mark.png";
+            team1Img = "null";
+            team2Img = "null";
         }
         matchId = matchList.get(i).getId()+"";
         holder.team1Name.setText(team1Name);
@@ -122,8 +122,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
             }
         });
         status = matchList.get(i).getStatus();
-        Glide.with(mContext).load(team1Img).into(holder.team1Img);
-        Glide.with(mContext).load(team2Img).into(holder.team2Img);
+
+        if(!team1Img.equals("null")) {Glide.with(mContext).load(team1Img).into(holder.team1Img);
+        }else{holder.team1Img.setBackgroundResource(R.drawable.qusetion_mark_tbd);}
+        if(!team2Img.equals("null")) {Glide.with(mContext).load(team2Img).into(holder.team2Img);
+        }else{holder.team2Img.setBackgroundResource(R.drawable.qusetion_mark_tbd);}
+
         final String begin_at = matchList.get(i).getBegin_at();
         final String detail_begin_at = utcToLocal.dettailTime(begin_at);
         holder.timeText.setText(detail_begin_at);
