@@ -84,7 +84,6 @@ public class WriteDialog extends AlertDialog.Builder implements View.OnClickList
             case R.id.write_post:
                 if(titleEt.getText().toString().equals("") || contentEt.getText().toString().equals("")){
                     myToast = Toast.makeText(getContext(), "빈 항목을 채워주세용", Toast.LENGTH_SHORT);
-                    myToast.cancel();
                     myToast.show();
                     return;
                 }
