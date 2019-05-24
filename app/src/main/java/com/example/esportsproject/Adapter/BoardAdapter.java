@@ -43,7 +43,9 @@ public class BoardAdapter extends RecyclerView.Adapter {
         vh.board_title.setText(messageItem.getTitle());
         vh.board_content.setText(messageItem.getMessage());
         vh.board_date.setText(messageItem.getTime());
-        vh.board_id.setText(messageItem.getUserToken());
+        String userToken = messageItem.getUserToken();
+        userToken = userToken.substring(0,3);
+        vh.board_id.setText(messageItem.getUserNickname()+"("+userToken+")");
     }
 
     @Override
@@ -58,6 +60,7 @@ public class BoardAdapter extends RecyclerView.Adapter {
         public TextView board_date;
         public TextView board_id;
         public ImageView board_image;
+
 
         public VH(@NonNull View itemView) {
             super(itemView);

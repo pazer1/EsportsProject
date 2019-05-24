@@ -17,15 +17,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.esportsproject.FirebaseBoard.FirebaseConnect;
+import com.github.abdularis.civ.CircleImageView;
 
 import java.util.ArrayList;
 
 public class DetailFragment extends Fragment implements View.OnClickListener {
 
-    String game_id;
+    String game_id,status,team1Name,team2Name;
     private boolean mIsShowingCardHeaderShadow;
 
 
@@ -92,7 +94,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         TextView team1percent = view.findViewById(R.id.detail_tema1_percent);
         TextView team2percent = view.findViewById(R.id.detail_tema2_percent);
         Toolbar toolbar = view.findViewById(R.id.detail_toolbar);
+        ImageView backImage = view.findViewById(R.id.detail_write_back);
         RecyclerView boardViewPager = view.findViewById(R.id.detail_recyclerview);
+        CircleImageView statusImg = view.findViewById(R.id.detail_status_img);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         String team1  = bundle.getString("team1","null1");
@@ -102,6 +106,15 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         team2VoteView.setTag(bundle.getString("team2Name"));
         team1VoteView.setOnClickListener(this);
         team2VoteView.setOnClickListener(this);
+        backImage.setOnClickListener(this);
+
+        if(bundle.getString("status").equals("finished")){
+            statusImg.setImageResource(R.drawable.dead_teemo);
+        }else if(bundle.getString("status").equals("not_started")){
+            statusImg.setImageResource(R.drawable.honey_teemo);
+        }else{
+            statusImg.setImageResource(R.drawable.fire_teemo);
+        }
 
         if(!team1.equals("null")) {Glide.with(getContext()).load(team1).into(team1View);
         }else{team1View.setBackgroundResource(R.drawable.qusetion_mark_tbd);}
@@ -110,10 +123,16 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
         team1NameView.setText(bundle.getString("team1Name"));
         team2NameView.setText(bundle.getString("team2Name"));
+
         statusView.setText(bundle.getString("status"));
+        status = bundle.getString("status");
+
+        team1Name = bundle.getString("team1Name");
+        team2Name = bundle.getString("team2Name");
+
         slugView.setText(bundle.getString("slug"));
 
-        FirebaseConnect.getFirebaseConnect().getVoteView(team1VoteView,team2VoteView,game_id,team1percent,team2percent);
+        FirebaseConnect.getFirebaseConnect().getVoteView(team1VoteView,team2VoteView,game_id,team1percent,team2percent,status);
         FirebaseConnect.getFirebaseConnect().getBoard(game_id,boardViewPager,getContext());
     }
 
@@ -122,14 +141,34 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         String teamName;
+
         switch (v.getId()){
             case R.id.detail_team1vote:
+                if(!status.equals("not_started")){
+                    Toast.makeText(getContext(), "시작하지 않은 경기만 투표할 수 있어요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(team1Name.equals("TBD")){
+                    Toast.makeText(getContext(), "TBD에 투표할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 teamName = (String)v.getTag();
                 FirebaseConnect.getFirebaseConnect().teamVote(teamName,game_id,getContext(),"team1Name");
                 break;
             case R.id.detail_team2vote:
+                if(!status.equals("not_started")){
+                    Toast.makeText(getContext(), "시작하지 않은 경기만 투표할 수 있어요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(team2Name.equals("TBD")){
+                    Toast.makeText(getContext(), "TBD에 투표할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 teamName = (String)v.getTag();
                 FirebaseConnect.getFirebaseConnect().teamVote(teamName,game_id,getContext(),"team2Name");
+                break;
+            case R.id.detail_write_back:
+                getActivity().getSupportFragmentManager().popBackStack();
         }
     }
 }

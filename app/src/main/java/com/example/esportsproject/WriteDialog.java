@@ -24,7 +24,7 @@ public class WriteDialog extends AlertDialog.Builder implements View.OnClickList
 
     AlertDialog alertDialog;
     private boolean isTitle,isContent;
-    EditText titleEt,contentEt;
+    EditText titleEt,contentEt,nickNameEt;
     String game_id;
     Toast myToast;
 
@@ -43,10 +43,11 @@ public class WriteDialog extends AlertDialog.Builder implements View.OnClickList
 
     public void setViewContent(View view){
         ImageView backbutton = view.findViewById(R.id.write_back);
-        View postView = view.findViewById(R.id.write_post);
+        View postView = view.findViewById(R.id.write_post_text);
         final TextView watcher_et = view.findViewById(R.id.wrtie_text_watcher);
         titleEt = view.findViewById(R.id.wrtie_title_et);
         contentEt = view.findViewById(R.id.write_content_et);
+        nickNameEt = view.findViewById(R.id.wirte_nickname);
         contentEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -81,13 +82,13 @@ public class WriteDialog extends AlertDialog.Builder implements View.OnClickList
             case R.id.write_back:
                 alertDialog.dismiss();
                 break;
-            case R.id.write_post:
-                if(titleEt.getText().toString().equals("") || contentEt.getText().toString().equals("")){
+            case R.id.write_post_text:
+                if(titleEt.getText().toString().equals("") || contentEt.getText().toString().equals("") || nickNameEt.getText().toString().equals("")){
                     myToast = Toast.makeText(getContext(), "빈 항목을 채워주세용", Toast.LENGTH_SHORT);
                     myToast.show();
                     return;
                 }
-                MessageItem messageItem = new MessageItem(game_id,titleEt.getText().toString(),contentEt.getText().toString(), UtcToLocal.getUtcToLocal().getTimeMDHM());
+                MessageItem messageItem = new MessageItem(game_id,nickNameEt.getText().toString(),titleEt.getText().toString(),contentEt.getText().toString(), UtcToLocal.getUtcToLocal().getTimeMDHM());
                 FirebaseConnect.getFirebaseConnect().writeToBoard(messageItem,getContext());
                 alertDialog.dismiss();
                 break;

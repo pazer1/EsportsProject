@@ -86,7 +86,7 @@ public class ApiCall {
             matches = Matches.getMatches();
             for(int i = 0; i < jrr.size(); i++){
                 Match match = gson.fromJson(jrr.get(i),Match.class);
-                String begin_time = utcToLocal.getTime(match.getBegin_at());
+                String begin_time = utcToLocal.getTime(match.getBegin_at(),progressBar.getContext());
                 if(matches.containsKey(begin_time))matches.get(begin_time).add(match);
                   else {
                       matches.put(begin_time,new ArrayList());
@@ -94,11 +94,6 @@ public class ApiCall {
                 }
             }
 
-            try {
-                Thread.sleep(6000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             Intent intent = new Intent(progressBar.getContext(),MainActivity.class);
             startActivity(progressBar.getContext(),intent,new Bundle());
             Context context =progressBar.getContext();
@@ -121,16 +116,14 @@ public class ApiCall {
     public JsonArray getJsonText(){
         JsonParser parser = new JsonParser();
         JsonArray jArr = new JsonArray();
-        String jsonPage = getStringFromUrl("http://dipdoo.dothome.co.kr/Esports/matches.json");
+        String pastTIme = UtcToLocal.getCurrentTime(-1L);
+        String futureTIme = UtcToLocal.getCurrentTime(1L);
+        String jsonPage = getStringFromUrl("https://api.pandascore.co/lol/matches?token=gniyEx4IMnR8yYGPbS6PgefBnN7FY8mKqIq4a2_inj___Dtwkik&sort=begin_at&page[size]=60&range[begin_at]="+pastTIme+","+futureTIme);
         if(jsonPage.equals(null)){
-            Log.d("jsonPage",jsonPage+"");
             new Handler().sendEmptyMessageDelayed(100,2000);
         }
-        Log.d("jsonPage",jsonPage+"");
         JsonElement element = parser.parse(jsonPage);
-        Log.d("element",element+"");
         if (element instanceof JsonObject) {
-            new Handler().sendEmptyMessageDelayed(100,2000);
             jArr = element.getAsJsonArray();
         } else if (element instanceof JsonArray) {
             jArr =  element.getAsJsonArray();

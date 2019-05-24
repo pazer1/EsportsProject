@@ -10,6 +10,7 @@ import android.app.job.JobScheduler;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -78,8 +79,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        VH holder = (VH) viewHolder;
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
+        final VH holder = (VH) viewHolder;
         final String team1Name,team2Name,team1Img,team2Img,matchId,status;
 
         if(matchList.get(i).getOpponents().size() == 2){
@@ -123,6 +124,34 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         });
         status = matchList.get(i).getStatus();
 
+
+        holder.score_container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(status.equals("finished")){
+                    String team1Score,team2Score;
+                    int team1Id = matchList.get(i).getOpponents().get(0).getOpponent().getId();
+                    int team1ScoreId = matchList.get(i).getResults().get(0).getTeam_id();
+                    //int team2ScoreId = matchList.get(i).getResults().get(1).getTeam_id();
+                    if(team1Id == team1ScoreId){
+                        team1Score = matchList.get(i).getOpponents().get(0).getOpponent().getName() +":"+ matchList.get(i).getResults().get(0).getScore();
+                        team2Score = matchList.get(i).getOpponents().get(1).getOpponent().getName() +":"+ matchList.get(i).getResults().get(1).getScore();
+                    }else{
+                        team1Score = matchList.get(i).getOpponents().get(0).getOpponent().getName() +":"+ matchList.get(i).getResults().get(1).getScore();
+                        team2Score = matchList.get(i).getOpponents().get(1).getOpponent().getName() +":"+ matchList.get(i).getResults().get(0).getScore();
+                    }
+                    if(Integer.parseInt(team1Score.split(":")[1])>Integer.parseInt(team2Score.split(":")[1]))
+                        holder.tv_score1.setTextColor(mContext.getResources().getColor(R.color.status_live_backgroud));
+                    else
+                        holder.tv_score2.setTextColor(mContext.getResources().getColor(R.color.status_live_backgroud));
+
+                    holder.tv_score1.setText(team1Score);
+                    holder.tv_score2.setText(team2Score);
+                }
+            }
+        });
+
+
         if(!team1Img.equals("null")) {Glide.with(mContext).load(team1Img).into(holder.team1Img);
         }else{holder.team1Img.setBackgroundResource(R.drawable.qusetion_mark_tbd);}
         if(!team2Img.equals("null")) {Glide.with(mContext).load(team2Img).into(holder.team2Img);
@@ -134,6 +163,22 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         holder.setNoti(begin_at,detail_begin_at,team1Name,team2Name,team1Img,team2Img,matchId);
         holder.leaguName.setText(matchList.get(i).getLeague().getName());
         holder.setDetailFragment(team1Img,team2Img,team1Name,team2Name,status,matchList.get(i).getTournament().getName(),matchList.get(i).getTournament().getSlug(),String.valueOf(matchList.get(i).getId()));
+
+
+        if(matchList.get(i).getStatus().equals("finished")){
+            holder.status_container.setBackgroundColor(mContext.getResources().getColor(R.color.status_finished_background));
+            holder.status_text.setTextColor(mContext.getResources().getColor(R.color.status_finished_text));
+            holder.status_text.setText("finished");
+        }else if(matchList.get(i).getStatus().equals("not_started")){
+            holder.status_container.setBackgroundColor(mContext.getResources().getColor(R.color.status_future_background));
+            holder.status_text.setTextColor(mContext.getResources().getColor(R.color.staus_future_text));
+            holder.status_text.setText("not_started");
+
+        }else{
+            holder.status_container.setBackgroundColor(mContext.getResources().getColor(R.color.status_live_backgroud));
+            holder.status_text.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.status_text.setText("LIVE");
+        }
     }
 
     @Override
@@ -148,7 +193,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         public CircleImageView team1Img;
         public CircleImageView team2Img;
         public ImageView noti,twitch;
-
+        public TextView status_text,tv_score1,tv_score2;
+        public View status_container,score_container;
 
         public VH(@NonNull View itemView) {
             super(itemView);
@@ -161,6 +207,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
             match_name = itemView.findViewById(R.id.tv_result);
             twitch = itemView.findViewById(R.id.iv_twitch);
             leaguName = itemView.findViewById(R.id.leaguName);
+            status_text = itemView.findViewById(R.id.status_text);
+            status_container = itemView.findViewById(R.id.status_container);
+            tv_score1 = itemView.findViewById(R.id.tv_score1);
+            tv_score2 = itemView.findViewById(R.id.tv_score2);
+            score_container = itemView.findViewById(R.id.container_score);
         }
 
         public void setDetailFragment(final String team1Img, final String team2Img, final String team1Name, final String team2Name, final String status, final String matchName, final String slug, final String game_id){
@@ -182,8 +233,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
                            .commit();
                 }
             });
-
         }
+//
+//        public void setResult(String ){
+//            iv_result.setText();
+//        }
+
 
         public void setNoti(final String begin_at, final String detail_begin_at, final String team1Name, final String team2Name, final String team1Img, final String team2Img, final String matchId){
 
@@ -195,6 +250,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
             }
             if(utcToLocal.tiemToMill(begin_at)-System.currentTimeMillis()<=0){
                 noti.setVisibility(View.GONE);
+                score_container.setVisibility(View.VISIBLE);
             }
             final FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(mContext));
             noti.setOnClickListener(
@@ -209,7 +265,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
                             String tag = begin_at+matchId;
                             if(isNotiCheck){
                                 Toast.makeText(mContext, "알랑이 해제되었습니다.", Toast.LENGTH_SHORT).show();
-
                                 Log.d("cancleTag",tag);
                                 isNotiCheck = false;
                                 noti.setBackgroundResource((R.drawable.notification));

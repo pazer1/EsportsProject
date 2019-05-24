@@ -3,8 +3,10 @@ package com.example.esportsproject;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.ContactsContract;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
@@ -133,8 +135,11 @@ public class MainActivity extends AppCompatActivity {
             tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
             tabLayout.setTabMode(TabLayout.MODE_FIXED);
         }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd");
-        String ss = simpleDateFormat.format(System.currentTimeMillis());
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        Date date = new Date(System.currentTimeMillis());
+        String ss = inputFormat.format(date);
+        ss = UtcToLocal.getUtcToLocal().getTime(ss,this);
+
         View view= LayoutInflater.from(this).inflate(R.layout.today_tab,null);
         TextView  tv = view.findViewById(R.id.tab_date);
         tv.setText(ss);

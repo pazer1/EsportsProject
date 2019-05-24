@@ -5,4 +5,10 @@
     <color name="colorAccent">#D81B60</color>
     <color name="progressColor">#2979ff</color>
     <color name="writeBackground">#BFFFFFFF</color>
+    <color name="status_finished_background">#9C505050</color>
+    <color name="status_finished_text">#000000</color>
+    <color name="status_future_background">#B74CAF50</color>
+    <color name="staus_future_text">#000000</color>
+    <color name="status_live_backgroud">#B4FF0000</color>
+    <color name="main_toolbar">#353535</color>
 </resources>

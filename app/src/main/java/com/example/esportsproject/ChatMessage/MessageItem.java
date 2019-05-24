@@ -7,6 +7,7 @@ public class MessageItem {
     String time;
     String title;
     String userToken;
+    String userNickname;
 
     public String getTitle() {
         return title;
@@ -24,11 +25,20 @@ public class MessageItem {
         this.userToken = userToken;
     }
 
-    public MessageItem(String game_id, String title, String message, String time) {
+    public String getUserNickname() {
+        return userNickname;
+    }
+
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname;
+    }
+
+    public MessageItem(String game_id, String userNickname, String title, String message, String time) {
         this.game_id = game_id;
         this.message = message;
         this.time = time;
         this.title = title;
+        this.userNickname = userNickname;
     }
 
     public MessageItem() {

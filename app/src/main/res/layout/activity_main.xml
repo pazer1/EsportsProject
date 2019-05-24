@@ -32,17 +32,14 @@
         <android.support.design.widget.TabLayout
             android:background="#3700b3"
             android:id="@+id/tabLayout"
+            app:tabTextAppearance="@style/MyCustomTabText"
             android:layout_below="@id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabBackground="@android:color/white"
+            app:tabBackground="@color/main_toolbar"
             app:tabIndicatorHeight="?attr/actionBarSize"
-            app:tabSelectedTextColor="@android:color/white"
-            app:tabIndicatorColor="@android:color/black"
-            app:tabPaddingEnd="-1dp"
-            app:tabPaddingStart="-1dp"
-            app:tabPaddingTop="-1dp"
-            app:tabPaddingBottom="-1dp"
+            app:tabSelectedTextColor="@android:color/black"
+            app:tabIndicatorColor="@android:color/white"
             app:tabMode="scrollable"
 
             >
