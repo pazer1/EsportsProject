@@ -124,6 +124,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         });
         status = matchList.get(i).getStatus();
 
+        if(status.equals("running")){
+            holder.noti.setVisibility(View.GONE);
+            holder.score_container.setVisibility(View.VISIBLE);
+            holder.tv_score1.setText("게임중입니다.");
+            holder.tv_score2.setText("");
+        }
 
         holder.score_container.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,7 +166,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         final String begin_at = matchList.get(i).getBegin_at();
         final String detail_begin_at = utcToLocal.dettailTime(begin_at);
         holder.timeText.setText(detail_begin_at);
-        holder.setNoti(begin_at,detail_begin_at,team1Name,team2Name,team1Img,team2Img,matchId);
+        holder.setNoti(begin_at,detail_begin_at,team1Name,team2Name,team1Img,team2Img,matchId,status);
         holder.leaguName.setText(matchList.get(i).getLeague().getName());
         holder.setDetailFragment(team1Img,team2Img,team1Name,team2Name,status,matchList.get(i).getTournament().getName(),matchList.get(i).getTournament().getSlug(),String.valueOf(matchList.get(i).getId()));
 
@@ -240,7 +246,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
 //        }
 
 
-        public void setNoti(final String begin_at, final String detail_begin_at, final String team1Name, final String team2Name, final String team1Img, final String team2Img, final String matchId){
+        public void setNoti(final String begin_at, final String detail_begin_at, final String team1Name, final String team2Name, final String team1Img, final String team2Img, final String matchId,final String status){
 
             if(notificationSave.containsKey(begin_at+matchId)){
                 isNotiCheck = (Boolean) notificationSave.get(begin_at+matchId);
@@ -248,7 +254,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
             if(isNotiCheck){
                 noti.setBackgroundResource(R.drawable.setnotiimg);
             }
-            if(utcToLocal.tiemToMill(begin_at)-System.currentTimeMillis()<=0){
+//            if(utcToLocal.tiemToMill(begin_at)-System.currentTimeMillis()<=0){
+//                noti.setVisibility(View.GONE);
+//                score_container.setVisibility(View.VISIBLE);
+//            }
+            if(status.equals("finished")){
                 noti.setVisibility(View.GONE);
                 score_container.setVisibility(View.VISIBLE);
             }

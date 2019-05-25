@@ -2,26 +2,34 @@ package com.example.esportsproject;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PersistableBundle;
 import android.provider.ContactsContract;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.esportsproject.Adapter.RecyclerAdapter;
 import com.example.esportsproject.FirebaseBoard.FirebaseConnect;
 import com.example.esportsproject.GetApi.ApiCall;
 import com.example.esportsproject.Global.IsIntalled;
@@ -53,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     ViewPager viewPager;
     TabLayout tabLayout;
     Matches matches = Matches.getMatches();
+    PagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,22 +76,65 @@ public class MainActivity extends AppCompatActivity {
             MainHandler handler = new MainHandler();
             handler.sendEmptyMessageDelayed(404,CheckTime);
         }
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
         loadMap();
         progressBar.setVisibility(View.GONE);
         initToolbar();
 //       여기서
         FirebaseConnect.getFirebaseConnect().loadDB();
+
+//        final ProgressBar progressBar = findViewById(R.id.main_progress);
+//        final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.main_refresh);
+//        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                Toast.makeText(MainActivity.this, "새로고침", Toast.LENGTH_SHORT).show();
+//                ApiCall.getInstance().excute(progressBar);
+//                progressBar.setVisibility(View.GONE);
+//                initToolbar();
+//                FirebaseConnect.getFirebaseConnect().loadDB();
+//                mSwipeRefreshLayout.setRefreshing(false);
+//            }
+//        });
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_refresh:
+                Toast.makeText(MainActivity.this, "새로고침", Toast.LENGTH_SHORT).show();
+                int position  = tabLayout.getSelectedTabPosition();
+                ApiCall.getInstance().excute(progressBar);
+                progressBar.setVisibility(View.GONE);
+                initToolbar();
+                FirebaseConnect.getFirebaseConnect().loadDB();
+                tabLayout.getTabAt(position).select();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (android.os.Build.VERSION.SDK_INT >= 27) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+        }
         IsIntalled isIntalled = IsIntalled.getInstance();
         if(isPackageInstalled("tv.twitch.android.app",this)) isIntalled.setTwitch(true);
         else isIntalled.setTwitch(false);
         if(isPackageInstalled("com.google.android.youtube",this)) isIntalled.setYoutube(true);
         else isIntalled.setYoutube(false);
     }
+
+
 
     private boolean isPackageInstalled(String pakagename, Context context){
 
@@ -120,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setTitle(getString(R.string.app_name));
         FragmentManager fragmentManager = getSupportFragmentManager();
-        PagerAdapter pagerAdapter = new com.example.esportsproject.Adapter.PagerAdapter(fragmentManager);
+        pagerAdapter = new com.example.esportsproject.Adapter.PagerAdapter(fragmentManager);
         if(matches.size() >0){
             Iterator it = matches.keySet().iterator();
             String kecode;
@@ -130,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         viewPager.setAdapter(pagerAdapter);
+
         tabLayout.setupWithViewPager(viewPager);
         if(tabLayout.getTabCount()<=5){
             tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -138,13 +191,15 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         Date date = new Date(System.currentTimeMillis());
         String ss = inputFormat.format(date);
-        ss = UtcToLocal.getUtcToLocal().getTime(ss,this);
+        ss = UtcToLocal.getUtcToLocal().getTimeSystem(ss,this);
 
         View view= LayoutInflater.from(this).inflate(R.layout.today_tab,null);
         TextView  tv = view.findViewById(R.id.tab_date);
+        pagerAdapter.notifyDataSetChanged();
         tv.setText(ss);
+        tabLayout.getTabAt(4).select();
         for(int i = 0; i<tabLayout.getTabCount(); i++){
-            if(tabLayout.getTabAt(i).getText().equals(ss)){
+            if(tabLayout.getTabAt(i).getText().toString().equals(ss)){
                 tabLayout.getTabAt(i).select();
                 tabLayout.getTabAt(i).setCustomView(view);
             }
@@ -154,6 +209,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        if (android.os.Build.VERSION.SDK_INT >= 27) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+        }
         saveMap(NotificationSave.getInstance());
     }
 

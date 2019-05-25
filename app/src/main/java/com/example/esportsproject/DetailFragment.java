@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.transition.Visibility;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,11 +17,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.esportsproject.FirebaseBoard.FirebaseConnect;
+import com.example.esportsproject.GetApi.ApiCall;
 import com.github.abdularis.civ.CircleImageView;
 
 import java.util.ArrayList;
@@ -46,11 +49,21 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         return detailFragment;
     }
 
+    public DetailFragment() {
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =LayoutInflater.from(container.getContext()).inflate(R.layout.detail_fragment,container,false);
-        setHasOptionsMenu(true);
+
         return view;
 
     }
@@ -59,7 +72,8 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu,menu);
-
+        menu.getItem(0).setVisible(false);
+        setHasOptionsMenu(true);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -98,6 +112,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         RecyclerView boardViewPager = view.findViewById(R.id.detail_recyclerview);
         CircleImageView statusImg = view.findViewById(R.id.detail_status_img);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
 
         String team1  = bundle.getString("team1","null1");
         String team2  = bundle.getString("team2","null2");

@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <item
-        android:title="menu"
-        android:id="@+id/menu_write"
-        android:icon="@android:drawable/ic_input_add"
+        android:title="refresh"
+        android:id="@+id/menu_refresh"
+        android:icon="@drawable/baseline_refresh_black"
         app:showAsAction="always"
         />
-
-
 </menu>

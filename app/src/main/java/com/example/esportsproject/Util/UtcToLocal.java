@@ -40,6 +40,24 @@ public class UtcToLocal {
             return e.getMessage();
         }
     }
+    public String getTimeSystem(String changeTime, Context context){
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("MM-dd");
+
+        String locTime;
+        try {
+            Date date = inputFormat.parse(changeTime);
+            //Locale systemLocale = context.getResources().getConfiguration().locale;
+            SimpleDateFormat sdf = new SimpleDateFormat("E",Locale.getDefault());
+            String dayOfTheWeek = sdf.format(date);
+            long milliseconds = date.getTime();
+            locTime= outputFormat.format(milliseconds);
+            return locTime+"("+dayOfTheWeek+")";
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+    }
 
     public static String getCurrentTime(long pluseTominus){
 
