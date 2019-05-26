@@ -67,6 +67,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         this.notificationSave = notificationSave;
         this.matchList = matchList;
         this.mItemList = itemList;
+        for (int i = 0; i < matchList.size(); i++){
+            Match match = (Match)matchList.get(i);
+            Log.d("matinfrgment1",match.getStatus());
+        }
+
+
     }
 
     @NonNull
@@ -185,6 +191,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
             holder.status_text.setTypeface(Typeface.DEFAULT_BOLD);
             holder.status_text.setText("LIVE");
         }
+
+        Log.d("recycler",matchList.get(i).getStatus());
     }
 
     @Override

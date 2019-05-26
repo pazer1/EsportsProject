@@ -30,10 +30,11 @@ public class UtcToLocal {
             Date date = inputFormat.parse(changeTime);
             //Locale systemLocale = context.getResources().getConfiguration().locale;
             SimpleDateFormat sdf = new SimpleDateFormat("E",Locale.getDefault());
-            String dayOfTheWeek = sdf.format(date);
+
             long milliseconds = date.getTime();
             int offset = tz.getOffset(milliseconds);
             locTime= outputFormat.format(milliseconds+offset);
+            String dayOfTheWeek = sdf.format(milliseconds+offset);
             return locTime+"("+dayOfTheWeek+")";
         } catch (ParseException e) {
             e.printStackTrace();

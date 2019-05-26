@@ -104,14 +104,14 @@ public class ApiCall {
             isCallEnd=true;
 
 //            검증
-//            Set keyset = matches.keySet();
-//            Iterator it = keyset.iterator();
+            Set keyset = matches.keySet();
+            Iterator it = keyset.iterator();
 //            while(it.hasNext()){
 //                String key = (String)it.next();
 //                for(int j =0; j<matches.get(key).size(); j++){
 //                    Match match = (Match) matches.get(key).get(j);
 //
-//                    Log.d("size",match.getName());
+//                    Log.d("statusmatch",match.getStatus());
 //                }
 //            }
         }
@@ -122,7 +122,8 @@ public class ApiCall {
         JsonArray jArr = new JsonArray();
         String pastTIme = UtcToLocal.getCurrentTime(-1L);
         String futureTIme = UtcToLocal.getCurrentTime(1L);
-        String jsonPage = getStringFromUrl("https://api.pandascore.co/lol/matches?token=gniyEx4IMnR8yYGPbS6PgefBnN7FY8mKqIq4a2_inj___Dtwkik&sort=begin_at&page[size]=60&range[begin_at]="+pastTIme+","+futureTIme);
+        //String jsonPage = getStringFromUrl("https://api.pandascore.co/lol/matches?token=gniyEx4IMnR8yYGPbS6PgefBnN7FY8mKqIq4a2_inj___Dtwkik&sort=begin_at&page[size]=60&range[begin_at]="+pastTIme+","+futureTIme);
+        String jsonPage = getStringFromUrl("http://dipdoo.dothome.co.kr/Esports/matches.json");
         if(jsonPage.equals(null)){
             new Handler().sendEmptyMessageDelayed(100,2000);
         }

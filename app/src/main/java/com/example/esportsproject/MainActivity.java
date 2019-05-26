@@ -1,6 +1,7 @@
 package com.example.esportsproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -10,7 +11,9 @@ import android.os.Message;
 import android.os.PersistableBundle;
 import android.provider.ContactsContract;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -60,17 +63,20 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     ViewPager viewPager;
     TabLayout tabLayout;
-    Matches matches = Matches.getMatches();
+    Matches matches;
     PagerAdapter pagerAdapter;
+    FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        matches= Matches.getMatches();
         progressBar = findViewById(R.id.main_progress);
         viewPager = findViewById(R.id.viewPager);
         toolbar = findViewById(R.id.toolbar);
         tabLayout = findViewById(R.id.tabLayout);
+        fragmentManager = getSupportFragmentManager();
         if(matches.size()<=0) {
             new ApiCall().excute(progressBar);
             MainHandler handler = new MainHandler();
@@ -80,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         loadMap();
         progressBar.setVisibility(View.GONE);
         initToolbar();
+
 //       여기서
         FirebaseConnect.getFirebaseConnect().loadDB();
 
@@ -110,12 +117,39 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.menu_refresh:
                 Toast.makeText(MainActivity.this, "새로고침", Toast.LENGTH_SHORT).show();
-                int position  = tabLayout.getSelectedTabPosition();
+                //int position  = tabLayout.getSelectedTabPosition();
                 ApiCall.getInstance().excute(progressBar);
                 progressBar.setVisibility(View.GONE);
+                matches= Matches.getMatches();
+                Set keyset = matches.keySet();
+                Iterator it = keyset.iterator();
+                while(it.hasNext()){
+                String key = (String)it.next();
+                for(int j =0; j<matches.get(key).size(); j++){
+                    Match match = (Match) matches.get(key).get(j);
+
+                    Log.d("statusmatch",match.getStatus());
+                }
+            }
+
+            for(int i = 0 ; i <fragmentManager.getFragments().size(); i++){
+                Fragment fragment = fragmentManager.getFragments().get(i);
+
+//
+//                for(int j=0; j<fragment.matchList.size(); j++){
+//                    Match match = (Match) fragment.matchList.get(j);
+//                    Log.d("mainactivity",match.getStatus());
+//                }
+
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.detach(fragment).attach(fragment).commit();
+                Log.d("fragmentSize",getSupportFragmentManager().getFragments().size()+"");
+            }
+
                 initToolbar();
                 FirebaseConnect.getFirebaseConnect().loadDB();
-                tabLayout.getTabAt(position).select();
+                pagerAdapter.notifyDataSetChanged();
+                //((com.example.esportsproject.Adapter.PagerAdapter) pagerAdapter).refresh();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -171,14 +205,25 @@ public class MainActivity extends AppCompatActivity {
     private void initToolbar(){
         setSupportActionBar(toolbar);
         setTitle(getString(R.string.app_name));
-        FragmentManager fragmentManager = getSupportFragmentManager();
+
         pagerAdapter = new com.example.esportsproject.Adapter.PagerAdapter(fragmentManager);
+
+        Set keyset = matches.keySet();
+        Iterator it1 = keyset.iterator();
+        while(it1.hasNext()){
+            String key = (String)it1.next();
+            for(int j =0; j<matches.get(key).size(); j++){
+                Match match = (Match) matches.get(key).get(j);
+
+                Log.d("statusmatch11",match.getStatus());
+            }
+        }
         if(matches.size() >0){
             Iterator it = matches.keySet().iterator();
             String kecode;
             while (it.hasNext()){
                 kecode = (String)it.next();
-                ((com.example.esportsproject.Adapter.PagerAdapter) pagerAdapter).addFragement(MainFragment.createInstance(matches.get(kecode).size(),matches.get(kecode)),kecode);
+                ((com.example.esportsproject.Adapter.PagerAdapter) pagerAdapter).addFragement(MainFragment.createInstance(matches.get(kecode).size(),matches.get(kecode),this),kecode);
             }
         }
         viewPager.setAdapter(pagerAdapter);
@@ -197,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
         TextView  tv = view.findViewById(R.id.tab_date);
         pagerAdapter.notifyDataSetChanged();
         tv.setText(ss);
-        tabLayout.getTabAt(4).select();
+        //tabLayout.getTabAt(1).select();
         for(int i = 0; i<tabLayout.getTabCount(); i++){
             if(tabLayout.getTabAt(i).getText().toString().equals(ss)){
                 tabLayout.getTabAt(i).select();
