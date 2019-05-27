@@ -1,6 +1,10 @@
 package com.example.esportsproject.ChatMessage;
 
-public class MessageItem {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+public class MessageItem extends HashMap<String, ArrayList> {
 
     String game_id;
     String message;
@@ -9,40 +13,14 @@ public class MessageItem {
     String userToken;
     String userNickname;
 
-    public String getTitle() {
-        return title;
+    ArrayList<String> boardContent;
+
+    public MessageItem(String game_id, String message, String time, String title, String userToken, String userNickname) {
+        super();
+
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getUserToken() {
-        return userToken;
-    }
-
-    public void setUserToken(String userToken) {
-        this.userToken = userToken;
-    }
-
-    public String getUserNickname() {
-        return userNickname;
-    }
-
-    public void setUserNickname(String userNickname) {
-        this.userNickname = userNickname;
-    }
-
-    public MessageItem(String game_id, String userNickname, String title, String message, String time) {
-        this.game_id = game_id;
-        this.message = message;
-        this.time = time;
-        this.title = title;
-        this.userNickname = userNickname;
-    }
-
-    public MessageItem() {
-    }
+     
 
     public String getGame_id() {
         return game_id;
@@ -68,4 +46,27 @@ public class MessageItem {
         this.time = time;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
+    }
+
+    public String getUserNickname() {
+        return userNickname;
+    }
+
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname;
+    }
 }
