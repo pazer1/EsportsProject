@@ -94,14 +94,11 @@ public class ApiCall {
                       matches.get(begin_time).add(match);
                 }
             }
-            if(!isCallEnd){
                 Intent intent = new Intent(progressBar.getContext(),MainActivity.class);
                 startActivity(progressBar.getContext(),intent,new Bundle());
                 Context context =progressBar.getContext();
 
                 ((Activity)context).finish();
-            }
-            isCallEnd=true;
 
 //            검증
             Set keyset = matches.keySet();

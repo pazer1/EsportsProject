@@ -37,6 +37,8 @@ public class MainFragment extends Fragment {
     private final static String ITEMS_COUNT_KEY = "PartThreeFragment&ItmesCount";
     ArrayList matchList;
     RecyclerAdapter recyclerAdapter;
+    RecyclerView recyclerView;
+
 
     public static MainFragment createInstance(int itemCount, ArrayList matchList,Context context){
         MainFragment mainFragment = new MainFragment();
@@ -66,7 +68,7 @@ public class MainFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_recycler_item,container,false);
+        recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_recycler_item,container,false);
         Bundle bundle = getArguments();
         matchList = bundle.getParcelableArrayList("matchList");
         for (int i = 0; i < matchList.size(); i++){
@@ -74,9 +76,9 @@ public class MainFragment extends Fragment {
             Log.d("onCreateView33333",match.getStatus());
         }
         setupRecyclerView(recyclerView);
-
         return recyclerView;
     }
+
 
     private void setupRecyclerView(RecyclerView recyclerView){
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -92,6 +94,10 @@ public class MainFragment extends Fragment {
         recyclerAdapter.notifyDataSetChanged();
         Log.d("새로고침","ㅁㄴㅇㅁㄴㅇ");
     }
+//
+//    public void refreshRecyclerAdapter(){
+//        if(recyclerAdapter != null)recyclerAdapter.notifyDataSetChanged();
+//    }
 
 
     private List<String>createItemList(){

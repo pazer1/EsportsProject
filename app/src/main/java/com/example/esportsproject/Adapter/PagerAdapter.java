@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 
+import com.example.esportsproject.MainFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,13 +29,14 @@ public class PagerAdapter extends FragmentPagerAdapter {
         fragmentTitleList.add(title);
     }
 
-    public void refresh(){
-        for(int i = 0; i<fragmentTitleList.size(); i++){
-            Fragment fragment = fragmentList.get(i);
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.detach(fragment).attach(fragment).commit();
-        }
-    }
+//    public void refresh(){
+//        for(int i = 0; i<fragmentList.size(); i++){
+//            MainFragment fragment = (MainFragment) fragmentList.get(i);
+//            fragment.refreshRecyclerAdapter();
+//            FragmentTransaction ft = fm.beginTransaction();
+//            ft.detach(fragment).attach(fragment).commit();
+//        }
+//    }
 
     @Override
     public int getItemPosition(@NonNull Object object) {

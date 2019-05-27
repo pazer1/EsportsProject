@@ -45,7 +45,6 @@ public class SplashActivity extends AppCompatActivity {
             progressBar.setVisibility(View.VISIBLE);
             ApiCall apiCall = new ApiCall();
             apiCall.excute(progressBar);
-
         }
     }
 }

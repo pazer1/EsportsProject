@@ -53,11 +53,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private static long CheckTime = 4000;
+    private final long btnBtweenTime = 10000;
 
     ProgressBar progressBar;
     Toolbar toolbar;
@@ -66,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
     Matches matches;
     PagerAdapter pagerAdapter;
     FragmentManager fragmentManager;
+    static long btnClickTime=0;
+    static int currentTabPosition=100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,39 +120,51 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_refresh:
+
+                if(btnClickTime +btnBtweenTime > System.currentTimeMillis()){
+                    Long a= ((btnClickTime+btnBtweenTime)-System.currentTimeMillis());
+                    int gaps = (int)TimeUnit.MILLISECONDS.toSeconds(a);
+                    Toast.makeText(this, gaps+"초 후에 실행해 주세요.", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
                 Toast.makeText(MainActivity.this, "새로고침", Toast.LENGTH_SHORT).show();
                 //int position  = tabLayout.getSelectedTabPosition();
                 ApiCall.getInstance().excute(progressBar);
                 progressBar.setVisibility(View.GONE);
                 matches= Matches.getMatches();
-                Set keyset = matches.keySet();
-                Iterator it = keyset.iterator();
-                while(it.hasNext()){
-                String key = (String)it.next();
-                for(int j =0; j<matches.get(key).size(); j++){
-                    Match match = (Match) matches.get(key).get(j);
-
-                    Log.d("statusmatch",match.getStatus());
-                }
-            }
-
-            for(int i = 0 ; i <fragmentManager.getFragments().size(); i++){
-                Fragment fragment = fragmentManager.getFragments().get(i);
-
+//                Set keyset = matches.keySet();
+//                Iterator it = keyset.iterator();
+//                while(it.hasNext()){
+//                String key = (String)it.next();
+//                for(int j =0; j<matches.get(key).size(); j++){
+//                    Match match = (Match) matches.get(key).get(j);
 //
-//                for(int j=0; j<fragment.matchList.size(); j++){
-//                    Match match = (Match) fragment.matchList.get(j);
-//                    Log.d("mainactivity",match.getStatus());
+//                    Log.d("statusmatch",match.getStatus());
 //                }
+//            }
 
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.detach(fragment).attach(fragment).commit();
-                Log.d("fragmentSize",getSupportFragmentManager().getFragments().size()+"");
-            }
+//            for(int i = 0 ; i <fragmentManager.getFragments().size(); i++){
+//                Fragment fragment = fragmentManager.getFragments().get(i);
+//
+////
+////                for(int j=0; j<fragment.matchList.size(); j++){
+////                    Match match = (Match) fragment.matchList.get(j);
+////                    Log.d("mainactivity",match.getStatus());
+////                }
+//
+//                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//                ft.detach(fragment).attach(fragment).commit();
+//                Log.d("fragmentSize",getSupportFragmentManager().getFragments().size()+"");
+//            }
 
-                initToolbar();
-                FirebaseConnect.getFirebaseConnect().loadDB();
-                pagerAdapter.notifyDataSetChanged();
+//                initToolbar();
+//                FirebaseConnect.getFirebaseConnect().loadDB();
+//                pagerAdapter.notifyDataSetChanged();
+//                ((com.example.esportsproject.Adapter.PagerAdapter) pagerAdapter).refresh();
+                currentTabPosition = tabLayout.getSelectedTabPosition();
+                btnClickTime = System.currentTimeMillis();
+                startActivity(new Intent(this,MainActivity.class));
+                finish();
                 //((com.example.esportsproject.Adapter.PagerAdapter) pagerAdapter).refresh();
                 break;
         }
@@ -208,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
 
         pagerAdapter = new com.example.esportsproject.Adapter.PagerAdapter(fragmentManager);
 
+
         Set keyset = matches.keySet();
         Iterator it1 = keyset.iterator();
         while(it1.hasNext()){
@@ -227,7 +244,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         viewPager.setAdapter(pagerAdapter);
-
         tabLayout.setupWithViewPager(viewPager);
         if(tabLayout.getTabCount()<=5){
             tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -242,12 +258,18 @@ public class MainActivity extends AppCompatActivity {
         TextView  tv = view.findViewById(R.id.tab_date);
         pagerAdapter.notifyDataSetChanged();
         tv.setText(ss);
+        int centerPostion = tabLayout.getTabCount();
+        centerPostion = centerPostion/2;
+        tabLayout.getTabAt(centerPostion).select();
         //tabLayout.getTabAt(1).select();
         for(int i = 0; i<tabLayout.getTabCount(); i++){
             if(tabLayout.getTabAt(i).getText().toString().equals(ss)){
                 tabLayout.getTabAt(i).select();
                 tabLayout.getTabAt(i).setCustomView(view);
             }
+        }
+        if(currentTabPosition !=100){
+            tabLayout.getTabAt(currentTabPosition).select();
         }
     }
 
