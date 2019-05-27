@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
+import static android.support.v4.content.ContextCompat.startActivities;
 import static android.support.v4.content.ContextCompat.startActivity;
 
 public class ApiCall {
@@ -95,9 +96,8 @@ public class ApiCall {
                 }
             }
                 Intent intent = new Intent(progressBar.getContext(),MainActivity.class);
-                startActivity(progressBar.getContext(),intent,new Bundle());
                 Context context =progressBar.getContext();
-
+                ((Activity)context).startActivity(intent);
                 ((Activity)context).finish();
 
 //            검증

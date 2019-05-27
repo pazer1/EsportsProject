@@ -157,6 +157,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
                     else
                         holder.tv_score2.setTextColor(mContext.getResources().getColor(R.color.status_live_backgroud));
 
+                    if(team1Score.length()>18){
+                        String[] team1Arr = team1Score.split(" ");
+                        team1Score = team1Arr[team1Arr.length-1];
+                    }
+                    if(team2Score.length()>18){
+                        String[] team2Arr = team2Score.split(" ");
+                        team2Score = team2Arr[team2Arr.length-1];
+                    }
                     holder.tv_score1.setText(team1Score);
                     holder.tv_score2.setText(team2Score);
                 }

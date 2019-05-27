@@ -46,6 +46,12 @@ public class BoardAdapter extends RecyclerView.Adapter {
         String userToken = messageItem.getUserToken();
         userToken = userToken.substring(0,3);
         vh.board_id.setText(messageItem.getUserNickname()+"("+userToken+")");
+        vh.board_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
     }
 
     @Override
@@ -60,6 +66,7 @@ public class BoardAdapter extends RecyclerView.Adapter {
         public TextView board_date;
         public TextView board_id;
         public ImageView board_image;
+        public TextView board_delete;
 
 
         public VH(@NonNull View itemView) {
@@ -69,6 +76,7 @@ public class BoardAdapter extends RecyclerView.Adapter {
             board_content = itemView.findViewById(R.id.board_content);
             board_date = itemView.findViewById(R.id.board_date);
             board_image = itemView.findViewById(R.id.view_image);
+            board_delete = itemView.findViewById(R.id.board_delete);
         }
     }
 }

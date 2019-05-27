@@ -57,25 +57,36 @@
                 android:minWidth="15dp"
                 android:layout_height="match_parent">
                 <TextView
+                    android:layout_weight="2"
                     android:id="@+id/board_date"
                     android:gravity="center_vertical"
                     android:text="date"
+                    android:textAlignment="center"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/board_delete"
+                    android:text="지우기"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
             </LinearLayout>
         </LinearLayout>
+
         <ImageView
             android:background="@android:color/darker_gray"
             android:layout_marginHorizontal="10dp"
             android:layout_width="match_parent"
             android:layout_height="1dp" />
+
         <TextView
             android:id="@+id/board_content"
-            android:padding="10dp"
-            android:minHeight="100dp"
-            android:text="asdasd"
-            android:layout_weight="8"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:minHeight="100dp"
+            android:padding="10dp"
+            android:text="asdasd" />
     </LinearLayout>
 </android.support.design.card.MaterialCardView>
