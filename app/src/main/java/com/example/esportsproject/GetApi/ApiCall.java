@@ -119,8 +119,8 @@ public class ApiCall {
         JsonArray jArr = new JsonArray();
         String pastTIme = UtcToLocal.getCurrentTime(-1L);
         String futureTIme = UtcToLocal.getCurrentTime(1L);
-        //String jsonPage = getStringFromUrl("https://api.pandascore.co/lol/matches?token=gniyEx4IMnR8yYGPbS6PgefBnN7FY8mKqIq4a2_inj___Dtwkik&sort=begin_at&page[size]=60&range[begin_at]="+pastTIme+","+futureTIme);
-        String jsonPage = getStringFromUrl("http://dipdoo.dothome.co.kr/Esports/matches.json");
+        String jsonPage = getStringFromUrl("https://api.pandascore.co/lol/matches?token=gniyEx4IMnR8yYGPbS6PgefBnN7FY8mKqIq4a2_inj___Dtwkik&sort=begin_at&page[size]=60&range[begin_at]="+pastTIme+","+futureTIme);
+        //String jsonPage = getStringFromUrl("http://dipdoo.dothome.co.kr/Esports/matches.json");
         if(jsonPage.equals(null)){
             new Handler().sendEmptyMessageDelayed(100,2000);
         }
