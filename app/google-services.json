@@ -8,6 +8,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:162560196279:android:6c014f2db9d8ae01",
+        "android_client_info": {
+          "package_name": "com.dipdoo.esportsproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "162560196279-h5fcjbjsabembq6k7h6t3sisn2f1gg91.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dipdoo.esportsproject",
+            "certificate_hash": "fee914be513ef8a4da01fe6f519460fbc96b7007"
+          }
+        },
+        {
+          "client_id": "162560196279-8cipmgfslj60sa7031i40ai73uqfcgmf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLYDatm_UeEgOLtyuatrsjHOaEWJF-JLQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "162560196279-8cipmgfslj60sa7031i40ai73uqfcgmf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:162560196279:android:0f5cdedcb39c762c",
         "android_client_info": {
           "package_name": "com.example.esportsproject"
