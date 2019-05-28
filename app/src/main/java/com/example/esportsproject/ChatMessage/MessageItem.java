@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MessageItem extends HashMap<String, ArrayList> {
+public class MessageItem {
 
     String game_id;
     String message;
@@ -12,13 +12,27 @@ public class MessageItem extends HashMap<String, ArrayList> {
     String title;
     String userToken;
     String userNickname;
+    String documentKey;
 
-    ArrayList<String> boardContent;
 
-    public MessageItem(String game_id, String message, String time, String title, String userToken, String userNickname) {
-        super();
-
+    public String getDocumentKey() {
+        return documentKey;
     }
+
+    public void setDocumentKey(String documentKey) {
+        this.documentKey = documentKey;
+    }
+
+    public MessageItem(String game_id, String userNickname, String title, String message, String time) {
+        this.game_id = game_id;
+        this.message = message;
+        this.time = time;
+        this.title = title;
+        this.userToken = userToken;
+        this.userNickname = userNickname;
+    }
+
+
 
      
 
@@ -42,6 +56,14 @@ public class MessageItem extends HashMap<String, ArrayList> {
         return time;
     }
 
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
+    }
+
     public void setTime(String time) {
         this.time = time;
     }
@@ -52,14 +74,6 @@ public class MessageItem extends HashMap<String, ArrayList> {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getUserToken() {
-        return userToken;
-    }
-
-    public void setUserToken(String userToken) {
-        this.userToken = userToken;
     }
 
     public String getUserNickname() {

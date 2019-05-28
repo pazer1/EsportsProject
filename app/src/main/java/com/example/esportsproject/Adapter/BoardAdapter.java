@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.esportsproject.ChatMessage.MessageItem;
+import com.example.esportsproject.FirebaseBoard.FirebaseConnect;
 import com.example.esportsproject.R;
 
 import org.w3c.dom.Text;
@@ -39,7 +41,7 @@ public class BoardAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         VH vh = (VH)viewHolder;
-        MessageItem messageItem = (MessageItem)(messageList.get(i));
+        final MessageItem messageItem = (MessageItem)(messageList.get(i));
         vh.board_title.setText(messageItem.getTitle());
         vh.board_content.setText(messageItem.getMessage());
         vh.board_date.setText(messageItem.getTime());
@@ -49,7 +51,9 @@ public class BoardAdapter extends RecyclerView.Adapter {
         vh.board_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                FirebaseConnect.getFirebaseConnect().deleteMessage(messageItem);
+                Toast.makeText(context, "지우기!", Toast.LENGTH_SHORT).show();
+                notifyDataSetChanged();
             }
         });
     }

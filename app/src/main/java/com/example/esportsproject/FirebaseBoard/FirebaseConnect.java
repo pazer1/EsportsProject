@@ -33,9 +33,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.lang.reflect.Array;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -49,6 +52,7 @@ public class FirebaseConnect {
     private Toast myToast;
     Long voteNum1,voteNum2;
     ArrayList<MessageItem> messageItemsList;
+    Map<String,MessageItem> writeHashManp;
 
     public static FirebaseConnect getFirebaseConnect() {
         if(firebaseConnect==null)firebaseConnect = new FirebaseConnect();
@@ -148,7 +152,9 @@ public class FirebaseConnect {
 
     public void writeToBoard(final MessageItem messageItem, final Context context){
         messageItem.setUserToken(userToke);
-        matchDocument.document(messageItem.getGame_id()).collection("User").document(String.valueOf(System.currentTimeMillis())).set(messageItem).addOnCompleteListener(new OnCompleteListener<Void>() {
+        writeHashManp = new HashMap<>();
+        writeHashManp.put(userToke,messageItem);
+        matchDocument.document(messageItem.getGame_id()).collection("User").document(String.valueOf(System.currentTimeMillis())).set(writeHashManp).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
@@ -162,27 +168,54 @@ public class FirebaseConnect {
         });
     }
 
+    public void deleteMessage(MessageItem messageItem){
+        if(!messageItem.getUserToken().equals(userToke)){
+            Log.d("12123123","본인것만 지우세요");
+            Log.d("12123123",messageItem.getUserToken()+":"+userToke);
+
+            return;
+        }
+        matchDocument.document(messageItem.getGame_id()).collection("User").document(messageItem.getDocumentKey()).delete();
+    }
+
     public void getBoard(String game_id, final RecyclerView boardRecyclerView, final Context context){
 
         matchDocument.document(game_id).collection("User").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 messageItemsList = new ArrayList<>();
-                if(queryDocumentSnapshots.getDocuments().size()<=0)return;
+                if(queryDocumentSnapshots.getDocuments().size()<0)return;
 
                 for(DocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                    String title  = (String)documentSnapshot.get("title");
-                    String game_id  = (String)documentSnapshot.get("game_id");
-                    String message  = (String)documentSnapshot.get("message");
-                    String time  = (String)documentSnapshot.get("time");
-                    String userToken = (String)documentSnapshot.get("userToken");
-                    String userNickname = (String)documentSnapshot.get("userNickname");
-                    MessageItem messageItem = new MessageItem(game_id,userNickname,title,message,time);
-                    messageItem.setUserToken(userToken);
-                    messageItemsList.add(0,messageItem);
+                    HashMap messageItem;
+                    Map boardHashMap =  documentSnapshot.getData();
+                    Set key = boardHashMap.keySet();
+                    Iterator keyIt = key.iterator();
 
+
+                    while(keyIt.hasNext()){
+                        messageItem = (HashMap) boardHashMap.get(keyIt.next());
+                        String title  = (String) messageItem.get("title");
+                        String game_id = (String)messageItem.get("game_id");
+                        String message  = (String)messageItem.get("message");
+                        String time = (String)messageItem.get("time");
+                        String userToken = (String)messageItem.get("userToken");
+                        String userNickname = (String)messageItem.get("userNickname");
+                        MessageItem boardMessage = new MessageItem(game_id,userNickname,title,message,time);
+                        boardMessage.setUserToken(userToken);
+                        boardMessage.setDocumentKey(documentSnapshot.getId());
+                        messageItemsList.add(boardMessage);
+                    }
+
+       //               String title  = messageItem.get("title");
+//                    String game_id  = (String)documentSnapshot.get("game_id");
+//                    String message  = (String)documentSnapshot.get("message");
+//                    String time  = (String)documentSnapshot.get("time");
+//                    String userToken = key.toString();
+//                    String userNickname = (String)documentSnapshot.get("userNickname");
+//                    MessageItem messageItem = new MessageItem(game_id,userNickname,title,message,time);
                 }
-                if(messageItemsList.size()>0){
+                if(messageItemsList.size()>=0){
                     LinearLayoutManager linearLayout = new LinearLayoutManager(context);
                     boardRecyclerView.setLayoutManager(linearLayout);
                     BoardAdapter boardAdapter = new BoardAdapter(context,messageItemsList);
