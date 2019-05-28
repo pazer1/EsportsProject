@@ -178,7 +178,8 @@ public class FirebaseConnect {
                     String userToken = (String)documentSnapshot.get("userToken");
                     String userNickname = (String)documentSnapshot.get("userNickname");
                     MessageItem messageItem = new MessageItem(game_id,userNickname,title,message,time);
-                    messageItem.setUserToken(userToken);
+                    HashMap<String,MessageItem> messageItemHashMap= new HashMap<>();
+                    messageItemHashMap.put(userToken,messageItem);
                     messageItemsList.add(0,messageItem);
 
                 }

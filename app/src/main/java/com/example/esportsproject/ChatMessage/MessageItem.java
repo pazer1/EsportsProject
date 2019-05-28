@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MessageItem extends HashMap<String, ArrayList> {
+public class MessageItem  {
 
     String game_id;
     String message;
@@ -13,14 +13,9 @@ public class MessageItem extends HashMap<String, ArrayList> {
     String userToken;
     String userNickname;
 
-    ArrayList<String> boardContent;
-
-    public MessageItem(String game_id, String message, String time, String title, String userToken, String userNickname) {
+    public MessageItem(String game_id, String userNickname, String title, String message, String time) {
         super();
-
     }
-
-     
 
     public String getGame_id() {
         return game_id;

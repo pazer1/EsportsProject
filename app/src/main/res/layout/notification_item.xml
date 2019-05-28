@@ -58,6 +58,7 @@
         <ImageView
             android:background="@drawable/twitch_icon"
             android:id="@+id/view_image"
+            android:visibility="gone"
             android:layout_toRightOf="@id/team2img"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="20dp"
