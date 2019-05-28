@@ -170,9 +170,7 @@ public class FirebaseConnect {
 
     public void deleteMessage(MessageItem messageItem){
         if(!messageItem.getUserToken().equals(userToke)){
-            Log.d("12123123","본인것만 지우세요");
             Log.d("12123123",messageItem.getUserToken()+":"+userToke);
-
             return;
         }
         matchDocument.document(messageItem.getGame_id()).collection("User").document(messageItem.getDocumentKey()).delete();
@@ -204,7 +202,7 @@ public class FirebaseConnect {
                         MessageItem boardMessage = new MessageItem(game_id,userNickname,title,message,time);
                         boardMessage.setUserToken(userToken);
                         boardMessage.setDocumentKey(documentSnapshot.getId());
-                        messageItemsList.add(boardMessage);
+                        messageItemsList.add(0,boardMessage);
                     }
 
        //               String title  = messageItem.get("title");
@@ -218,7 +216,7 @@ public class FirebaseConnect {
                 if(messageItemsList.size()>=0){
                     LinearLayoutManager linearLayout = new LinearLayoutManager(context);
                     boardRecyclerView.setLayoutManager(linearLayout);
-                    BoardAdapter boardAdapter = new BoardAdapter(context,messageItemsList);
+                    BoardAdapter boardAdapter = new BoardAdapter(context,messageItemsList,userToke);
                     boardRecyclerView.setAdapter(boardAdapter);
                     boardAdapter.notifyDataSetChanged();
                 }

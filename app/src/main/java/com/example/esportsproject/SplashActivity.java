@@ -2,6 +2,7 @@ package com.example.esportsproject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -45,6 +46,14 @@ public class SplashActivity extends AppCompatActivity {
             progressBar.setVisibility(View.VISIBLE);
             ApiCall apiCall = new ApiCall();
             apiCall.excute(progressBar);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (android.os.Build.VERSION.SDK_INT >= 27) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
         }
     }
 }

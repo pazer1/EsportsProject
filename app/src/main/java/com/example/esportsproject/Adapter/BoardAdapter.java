@@ -24,11 +24,12 @@ public class BoardAdapter extends RecyclerView.Adapter {
 
     Context context;
     ArrayList messageList;
+    String firebaseUsertoken;
 
-    public BoardAdapter(Context context, ArrayList messageList) {
+    public BoardAdapter(Context context, ArrayList messageList,String firebaseUsertoken) {
         this.context = context;
         this.messageList = messageList;
-
+        this.firebaseUsertoken = firebaseUsertoken;
     }
 
     @NonNull
@@ -46,13 +47,15 @@ public class BoardAdapter extends RecyclerView.Adapter {
         vh.board_content.setText(messageItem.getMessage());
         vh.board_date.setText(messageItem.getTime());
         String userToken = messageItem.getUserToken();
+        if(messageItem.getUserToken().equals(firebaseUsertoken)){
+            vh.board_delete.setVisibility(View.VISIBLE);
+        }
         userToken = userToken.substring(0,3);
         vh.board_id.setText(messageItem.getUserNickname()+"("+userToken+")");
         vh.board_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseConnect.getFirebaseConnect().deleteMessage(messageItem);
-                Toast.makeText(context, "지우기!", Toast.LENGTH_SHORT).show();
                 notifyDataSetChanged();
             }
         });
