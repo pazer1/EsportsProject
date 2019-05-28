@@ -67,8 +67,10 @@
                 <TextView
                     android:id="@+id/board_delete"
                     android:text="지우기"
+                    android:visibility="gone"
                     android:layout_marginHorizontal="10dp"
-                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>
