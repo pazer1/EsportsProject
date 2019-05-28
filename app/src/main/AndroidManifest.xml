@@ -10,9 +10,9 @@
     <application
         android:allowBackup="true"
         android:configChanges="orientation|screenSize"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/letterl"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/logo"
+        android:roundIcon="@drawable/letterl"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
