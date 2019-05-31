@@ -28,7 +28,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     private boolean mIsShowingCardHeaderShadow;
 
 
-    public static DetailFragment getInstance(String team1Img,String team2Img,String team1name, String team2Name, String status, String matchName, String slug,String game_id){
+    public static DetailFragment getInstance(String team1Img,String team2Img,String team1name, String team2Name, String status, String matchName, String slug,String game_id,String begin_at){
         DetailFragment detailFragment = new DetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString("team1",team1Img);
@@ -39,6 +39,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         bundle.putString("matchName",matchName);
         bundle.putString("slug",slug);
         bundle.putString("game_id",game_id);
+        bundle.putString("begin_at",begin_at);
         detailFragment.setArguments(bundle);
         return detailFragment;
     }
@@ -101,16 +102,18 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         TextView team2VoteView = view.findViewById(R.id.detail_team2vote);
         TextView team1percent = view.findViewById(R.id.detail_tema1_percent);
         TextView team2percent = view.findViewById(R.id.detail_tema2_percent);
+        TextView detail_beginat = view.findViewById(R.id.detail_date);
         Toolbar toolbar = view.findViewById(R.id.detail_toolbar);
         ImageView backImage = view.findViewById(R.id.detail_write_back);
         RecyclerView boardViewPager = view.findViewById(R.id.detail_recyclerview);
         CircleImageView statusImg = view.findViewById(R.id.detail_status_img);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
-
+        String begin_at = bundle.getString("begin_at");
         String team1  = bundle.getString("team1","null1");
         String team2  = bundle.getString("team2","null2");
         game_id = bundle.getString("game_id");
+        detail_beginat.setText(begin_at);
         team1VoteView.setTag(bundle.getString("team1Name"));
         team2VoteView.setTag(bundle.getString("team2Name"));
         team1VoteView.setOnClickListener(this);
@@ -139,7 +142,12 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         team1Name = bundle.getString("team1Name");
         team2Name = bundle.getString("team2Name");
 
-        slugView.setText(bundle.getString("slug"));
+        String slug = bundle.getString("slug");
+        if(slug.contains("league-of-legends")){
+           String[] slugs =  slug.split("league-of-legends-");
+            slugView.setText(slugs[1]);
+
+        }
 
         FirebaseConnect.getFirebaseConnect().getVoteView(team1VoteView,team2VoteView,game_id,team1percent,team2percent,status);
         FirebaseConnect.getFirebaseConnect().getBoard(game_id,boardViewPager,getContext());
