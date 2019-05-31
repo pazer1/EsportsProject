@@ -37,7 +37,7 @@ public class ApiCall {
     private static ApiCall mInstance;
     private static UtcToLocal utcToLocal;
     private Matches matches;
-    private static boolean isCallEnd = false;
+    public static boolean isCallEnd = false;
     ProgressBar progressBar;
 
     public static ApiCall getInstance(){
@@ -86,14 +86,18 @@ public class ApiCall {
                       matches.get(begin_time).add(match);
                 }
             }
+            if(!isCallEnd){
                 Intent intent = new Intent(progressBar.getContext(),MainActivity.class);
                 Context context =progressBar.getContext();
                 ((Activity)context).startActivity(intent);
                 ((Activity)context).finish();
+                isCallEnd = true;
+            }
+
 
 //            검증
-            Set keyset = matches.keySet();
-            Iterator it = keyset.iterator();
+//            Set keyset = matches.keySet();
+//            Iterator it = keyset.iterator();
 //            while(it.hasNext()){
 //                String key = (String)it.next();
 //                for(int j =0; j<matches.get(key).size(); j++){

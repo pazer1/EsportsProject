@@ -96,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu,menu);
@@ -251,6 +253,7 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i<tabLayout.getTabCount(); i++){
             if(tabLayout.getTabAt(i).getText().toString().equals(ss)){
                 tabLayout.getTabAt(i).select();
+                Log.d("today",ss);
                 tabLayout.getTabAt(i).setCustomView(view);
             }
         }

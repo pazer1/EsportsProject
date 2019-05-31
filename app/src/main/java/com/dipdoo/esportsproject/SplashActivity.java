@@ -21,7 +21,6 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-
         ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         if(cm.getActiveNetworkInfo() == null){
             Toast.makeText(this, "인터넷을 연결해야 사용 가능합니다", Toast.LENGTH_SHORT).show();
@@ -30,6 +29,7 @@ public class SplashActivity extends AppCompatActivity {
             ProgressBar progressBar = findViewById(R.id.loading_spinner);
             progressBar.setVisibility(View.VISIBLE);
             ApiCall apiCall = new ApiCall();
+            apiCall.isCallEnd =false;
             apiCall.excute(progressBar);
         }
     }
