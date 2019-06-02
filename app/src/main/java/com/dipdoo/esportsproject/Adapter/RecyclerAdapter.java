@@ -145,11 +145,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
 
                     if(team1Score.length()>18){
                         String[] team1Arr = team1Score.split(" ");
-                        team1Score = team1Arr[team1Arr.length-1];
+                        team1Score = team1Arr[0]+" "+team1Arr[team1Arr.length-1];
                     }
                     if(team2Score.length()>18){
                         String[] team2Arr = team2Score.split(" ");
-                        team2Score = team2Arr[team2Arr.length-1];
+                        team2Score = team2Arr[0]+" "+team2Arr[team2Arr.length-1];
                     }
                     holder.tv_score1.setText(team1Score);
                     holder.tv_score2.setText(team2Score);
@@ -174,17 +174,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         if(matchList.get(i).getStatus().equals("finished")){
             holder.status_container.setBackgroundColor(mContext.getResources().getColor(R.color.status_finished_background));
             holder.status_text.setTextColor(mContext.getResources().getColor(R.color.status_finished_text));
-            holder.status_text.setText("finished");
         }else if(matchList.get(i).getStatus().equals("not_started")){
             holder.status_container.setBackgroundColor(mContext.getResources().getColor(R.color.status_future_background));
             holder.status_text.setTextColor(mContext.getResources().getColor(R.color.staus_future_text));
-            holder.status_text.setText("not_started");
 
         }else{
             holder.status_container.setBackgroundColor(mContext.getResources().getColor(R.color.status_live_backgroud));
             holder.status_text.setTypeface(Typeface.DEFAULT_BOLD);
-            holder.status_text.setText("LIVE");
         }
+        holder.status_text.setText(matchList.get(i).getStatus());
     }
 
     @Override
@@ -261,6 +259,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
             if(status.equals("finished")){
                 noti.setVisibility(View.GONE);
                 score_container.setVisibility(View.VISIBLE);
+            }else if(status.equals("not_started")){
+                noti.setVisibility(View.VISIBLE);
+                score_container.setVisibility(View.GONE);
             }
             final FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(mContext));
             noti.setOnClickListener(
