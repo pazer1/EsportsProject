@@ -66,6 +66,7 @@
             android:layout_height="35dp" />
         <TextView
             android:text="보러가기"
+            android:visibility="gone"
             android:layout_below="@id/view_image"
             android:layout_toRightOf="@id/team2img"
             android:layout_centerVertical="true"

@@ -46,6 +46,7 @@ public class FirebaseConnect {
     Long voteNum1,voteNum2;
     ArrayList<MessageItem> messageItemsList;
     Map<String,MessageItem> writeHashManp;
+    ArrayList tokeList = new ArrayList();
 
     public static FirebaseConnect getFirebaseConnect() {
         if(firebaseConnect==null)firebaseConnect = new FirebaseConnect();
@@ -89,7 +90,7 @@ public class FirebaseConnect {
         return String.valueOf((int)percent+"%");
     }
 
-    public void getVoteView(final View team1VoteView, View team2VoteView, String game_id, final View team1Percent, final View team2Percent,final String gameStatus){
+    public void getVoteView(final View team1VoteView, View team2VoteView, final String game_id, final View team1Percent, final View team2Percent, final String gameStatus){
 
         final TextView team1View = (TextView) team1VoteView;
         final TextView team2View = (TextView) team2VoteView;
@@ -102,6 +103,7 @@ public class FirebaseConnect {
                 voteNum1 = (Long)documentSnapshot.get("team1Name");
                 voteNum2 = (Long)documentSnapshot.get("team2Name");
                 ArrayList tokenList = (ArrayList) documentSnapshot.get("tokenList");
+                if(tokenList == null)matchDocument.document(game_id).set(tokenList);
                 if(tokenList.contains(userToke) || !(gameStatus.equals("not_started"))){
                     team1View.setText(String.valueOf(voteNum1));
                     team2View.setText(String.valueOf(voteNum2));

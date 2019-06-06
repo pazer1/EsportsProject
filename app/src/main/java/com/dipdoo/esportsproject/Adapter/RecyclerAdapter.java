@@ -76,10 +76,25 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         final String team1Name,team2Name,team1Img,team2Img,matchId,status;
 
         if(matchList.get(i).getOpponents().size() == 2){
-            team1Name = matchList.get(i).getOpponents().get(0).getOpponent().getName();
-            team1Img = matchList.get(i).getOpponents().get(0).getOpponent().getImage_url().toString();
+            if(matchList.get(i).getOpponents().get(0).getOpponent().getName() != null){
+                team1Name = matchList.get(i).getOpponents().get(0).getOpponent().getName();
+            }else{
+                team1Name ="TBD";
+            }
+            if(matchList.get(i).getOpponents().get(0).getOpponent().getImage_url() != null){
+                team1Img = matchList.get(i).getOpponents().get(0).getOpponent().getImage_url().toString();
+            }else{
+                team1Img="null";
+
+            }
+
             team2Name = matchList.get(i).getOpponents().get(1).getOpponent().getName();
-            team2Img = matchList.get(i).getOpponents().get(1).getOpponent().getImage_url().toString();
+            if(matchList.get(i).getOpponents().get(1).getOpponent().getImage_url() != null){
+                team2Img = matchList.get(i).getOpponents().get(1).getOpponent().getImage_url().toString();
+
+            }else{
+                team2Img="null";
+            }
 
         }else if(matchList.get(i).getOpponents().size() == 1){
             team1Name = matchList.get(i).getOpponents().get(0).getOpponent().getName();

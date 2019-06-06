@@ -223,13 +223,18 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("statusmatch11",match.getStatus());
             }
         }
+        Log.d("matchSize",matches.size()+"");
         if(matches.size() >0){
             Iterator it = matches.keySet().iterator();
             String kecode;
+            int temp=0;
             while (it.hasNext()){
+                temp++;
                 kecode = (String)it.next();
                 ((com.dipdoo.esportsproject.Adapter.PagerAdapter) pagerAdapter).addFragement(MainFragment.createInstance(matches.get(kecode).size(),matches.get(kecode),this),kecode);
+
             }
+            Log.d("tempInt", String.valueOf(temp));
         }
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);

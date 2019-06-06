@@ -77,6 +77,7 @@ public class ApiCall {
             utcToLocal = UtcToLocal.getUtcToLocal();
             matches = Matches.getMatches();
             matches.clear();
+            Log.d("jrrsize",jrr.size()+"");
             for(int i = 0; i < jrr.size(); i++){
                 Match match = gson.fromJson(jrr.get(i),Match.class);
                 String begin_time = utcToLocal.getTime(match.getBegin_at(),progressBar.getContext());
@@ -84,6 +85,7 @@ public class ApiCall {
                   else {
                       matches.put(begin_time,new ArrayList());
                       matches.get(begin_time).add(match);
+                      Log.d("match_begin",begin_time+"");
                 }
             }
             if(!isCallEnd){
@@ -114,7 +116,9 @@ public class ApiCall {
         JsonArray jArr = new JsonArray();
         String pastTIme = UtcToLocal.getCurrentTime(-1L);
         String futureTIme = UtcToLocal.getCurrentTime(1L);
-        String jsonPage = getStringFromUrl("https://api.pandascore.co/lol/matches?token=gniyEx4IMnR8yYGPbS6PgefBnN7FY8mKqIq4a2_inj___Dtwkik&sort=begin_at&page[size]=60&range[begin_at]="+pastTIme+","+futureTIme);
+        Log.d("pastTime",pastTIme);
+        Log.d("futureTime",futureTIme);
+        String jsonPage = getStringFromUrl("https://api.pandascore.co/lol/matches?token=gniyEx4IMnR8yYGPbS6PgefBnN7FY8mKqIq4a2_inj___Dtwkik&sort=begin_at&page[size]=400&per_page=100&range[begin_at]="+pastTIme+","+futureTIme);
         //String jsonPage = getStringFromUrl("http://dipdoo.dothome.co.kr/Esports/matches.json");
         if(jsonPage.equals(null)){
             new Handler().sendEmptyMessageDelayed(100,2000);
