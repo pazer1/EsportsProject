@@ -118,6 +118,7 @@ public class ApiCall {
         String futureTIme = UtcToLocal.getCurrentTime(1L);
         Log.d("pastTime",pastTIme);
         Log.d("futureTime",futureTIme);
+
         String jsonPage = getStringFromUrl("https://api.pandascore.co/lol/matches?token=gniyEx4IMnR8yYGPbS6PgefBnN7FY8mKqIq4a2_inj___Dtwkik&sort=begin_at&page[size]=400&per_page=100&range[begin_at]="+pastTIme+","+futureTIme);
         //String jsonPage = getStringFromUrl("http://dipdoo.dothome.co.kr/Esports/matches.json");
         if(jsonPage.equals(null)){

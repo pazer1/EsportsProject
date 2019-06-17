@@ -64,7 +64,7 @@ public class UtcToLocal {
         TimeZone tz = TimeZone.getDefault();
         long milliseconds = System.currentTimeMillis();
         int offset = tz.getOffset(milliseconds);
-        long forthDay = (1000*60*60*24) *3;
+        long forthDay = (1000*60*60*24) *2;
         forthDay = forthDay*pluseTominus;
         String currenttime = simpleDateFormat.format(milliseconds+forthDay);
         return String.valueOf(currenttime);
