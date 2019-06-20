@@ -198,6 +198,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
             holder.status_text.setTypeface(Typeface.DEFAULT_BOLD);
         }
         holder.status_text.setText(matchList.get(i).getStatus());
+        holder.game_id.setText(matchId);
     }
 
     @Override
@@ -212,7 +213,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         public CircleImageView team1Img;
         public CircleImageView team2Img;
         public ImageView noti,twitch;
-        public TextView status_text,tv_score1,tv_score2;
+        public TextView status_text,tv_score1,tv_score2,game_id;
         public View status_container,score_container;
 
         public VH(@NonNull View itemView) {
@@ -231,6 +232,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
             tv_score1 = itemView.findViewById(R.id.tv_score1);
             tv_score2 = itemView.findViewById(R.id.tv_score2);
             score_container = itemView.findViewById(R.id.container_score);
+            game_id = itemView.findViewById(R.id.game_id);
         }
 
         public void setDetailFragment(final String team1Img, final String team2Img, final String team1Name, final String team2Name, final String status, final String matchName, final String slug, final String game_id,final String begin_at){
