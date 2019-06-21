@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     static long btnClickTime=0;
     static int currentTabPosition=100;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
