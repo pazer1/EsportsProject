@@ -115,12 +115,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position==1){
-                    MainFragment mainFragment = (MainFragment) fragmentManager.getFragments().get(viewPager.getCurrentItem());
-                    mainFragment.matchList.clear();
-                    mainFragment.recyclerAdapter.notifyDataSetChanged();
-                    pagerAdapter.notifyDataSetChanged();
-
-
+                    for(int i=0; i<fragmentManager.getFragments().size(); i++){
+                        MainFragment mainFragment = (MainFragment) fragmentManager.getFragments().get(i);
+                        ((MainFragment)mainFragment).matchList.clear();
+                        ((MainFragment)mainFragment).recyclerAdapter.notifyDataSetChanged();
+                        pagerAdapter.notifyDataSetChanged();
+                    }
                 }
             }
 
@@ -257,7 +257,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("statusmatch11",match.getStatus());
             }
         }
-        Log.d("matchSize",matches.size()+"");
         if(matches.size() >0){
             Iterator it = matches.keySet().iterator();
             String kecode;
@@ -270,6 +269,7 @@ public class MainActivity extends AppCompatActivity {
             }
             Log.d("tempInt", String.valueOf(temp));
         }
+        viewPager.setOffscreenPageLimit(tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         if(tabLayout.getTabCount()<=5){
