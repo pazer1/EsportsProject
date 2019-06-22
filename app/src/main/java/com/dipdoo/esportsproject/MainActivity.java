@@ -114,9 +114,14 @@ public class MainActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position==1){
+                    MainFragment mainFragment = (MainFragment) fragmentManager.getFragments().get(viewPager.getCurrentItem());
+                    mainFragment.matchList.clear();
+                    mainFragment.recyclerAdapter.notifyDataSetChanged();
+                    pagerAdapter.notifyDataSetChanged();
 
-                MainFragment fragment = (MainFragment) fragmentManager.getFragments().get(0);
 
+                }
             }
 
             @Override

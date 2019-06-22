@@ -55,7 +55,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         this.mItemList = itemList;
         for (int i = 0; i < matchList.size(); i++){
             Match match = (Match)matchList.get(i);
-            Log.d("matinfrgment1",match.getStatus());
         }
 
 
@@ -74,7 +73,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
         final VH holder = (VH) viewHolder;
         final String team1Name,team2Name,team1Img,team2Img,matchId,status;
-
+        if(matchList.size()<=0){
+            return;
+        }
         if(matchList.get(i).getOpponents().size() == 2){
             if(matchList.get(i).getOpponents().get(0).getOpponent().getName() != null){
                 team1Name = matchList.get(i).getOpponents().get(0).getOpponent().getName();
@@ -203,7 +204,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return mItemList.size();
+        return matchList.size();
     }
 
     class VH extends RecyclerView.ViewHolder{
