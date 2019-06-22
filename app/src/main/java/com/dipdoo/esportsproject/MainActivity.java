@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -19,7 +20,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +40,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -54,8 +60,11 @@ public class MainActivity extends AppCompatActivity {
     Matches matches;
     PagerAdapter pagerAdapter;
     FragmentManager fragmentManager;
+    Spinner spinner;
     static long btnClickTime=0;
     static int currentTabPosition=100;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         tabLayout = findViewById(R.id.tabLayout);
         fragmentManager = getSupportFragmentManager();
+        spinner = findViewById(R.id.main_spinner);
         if(matches.size()<=0) {
             new ApiCall().excute(progressBar);
             MainHandler handler = new MainHandler();
@@ -76,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         loadMap();
         progressBar.setVisibility(View.GONE);
         initToolbar();
-
+        initSpinner();
 //       여기서
         FirebaseConnect.getFirebaseConnect().loadDB();
 
@@ -95,7 +105,26 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
 
+    private void initSpinner(){
+        String[] category = {"전체보기","LCK","LPL","LCS","LEC","LMS"};
+        int[] categoryImg ={R.drawable.riot_logo,R.drawable.lck_logo,R.drawable.lpl_logo,R.drawable.lcs_logo,R.drawable.lec_logo,R.drawable.lms_logo};
 
+        SpinnerAdapter adapter = new com.dipdoo.esportsproject.Adapter.SpinnerAdapter(this,category,categoryImg);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                MainFragment fragment = (MainFragment) fragmentManager.getFragments().get(0);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
 
 
     @Override
@@ -223,13 +252,18 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("statusmatch11",match.getStatus());
             }
         }
+        Log.d("matchSize",matches.size()+"");
         if(matches.size() >0){
             Iterator it = matches.keySet().iterator();
             String kecode;
+            int temp=0;
             while (it.hasNext()){
+                temp++;
                 kecode = (String)it.next();
                 ((com.dipdoo.esportsproject.Adapter.PagerAdapter) pagerAdapter).addFragement(MainFragment.createInstance(matches.get(kecode).size(),matches.get(kecode),this),kecode);
+
             }
+            Log.d("tempInt", String.valueOf(temp));
         }
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);

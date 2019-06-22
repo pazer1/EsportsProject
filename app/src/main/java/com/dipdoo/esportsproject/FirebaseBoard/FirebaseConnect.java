@@ -46,6 +46,7 @@ public class FirebaseConnect {
     Long voteNum1,voteNum2;
     ArrayList<MessageItem> messageItemsList;
     Map<String,MessageItem> writeHashManp;
+    ArrayList tokeList = new ArrayList();
 
     public static FirebaseConnect getFirebaseConnect() {
         if(firebaseConnect==null)firebaseConnect = new FirebaseConnect();
@@ -101,17 +102,19 @@ public class FirebaseConnect {
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 voteNum1 = (Long)documentSnapshot.get("team1Name");
                 voteNum2 = (Long)documentSnapshot.get("team2Name");
-                ArrayList tokenList = (ArrayList) documentSnapshot.get("tokenList");
-                if(tokenList !=null){
-                    if(tokenList.contains(userToke) || !(gameStatus.equals("not_started"))){
-                        team1View.setText(String.valueOf(voteNum1));
-                        team2View.setText(String.valueOf(voteNum2));
-                        ((TextView) team1percentView).setText(calPercent(voteNum1,voteNum2));
-                        ((TextView) team2percentView).setText(calPercent(voteNum2,voteNum1));
-                    }
+                ArrayList tokenList;
+                if(documentSnapshot.get("tokenList")==null){
+                    tokenList = new ArrayList();
+                    matchDocument.document(game_id).update("tokenList",tokenList);
                 }else{
-
-
+                     tokenList = (ArrayList) documentSnapshot.get("tokenList");
+                }
+                if(tokenList == null)matchDocument.document(game_id).set(tokenList);
+                if(tokenList.contains(userToke) || !(gameStatus.equals("not_started"))){
+                    team1View.setText(String.valueOf(voteNum1));
+                    team2View.setText(String.valueOf(voteNum2));
+                    ((TextView) team1percentView).setText(calPercent(voteNum1,voteNum2));
+                    ((TextView) team2percentView).setText(calPercent(voteNum2,voteNum1));
                 }
             }
         });
@@ -126,7 +129,6 @@ public class FirebaseConnect {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     ArrayList tokenList = (ArrayList) task.getResult().get("tokenList");
-
                     if(tokenList.contains(userToke)){
                         myToast=Toast.makeText(context,"투표는 한번만 가능합니다",Toast.LENGTH_SHORT);
                         myToast.show();
@@ -169,6 +171,7 @@ public class FirebaseConnect {
 
     public void deleteMessage(MessageItem messageItem){
         if(!messageItem.getUserToken().equals(userToke)){
+            Log.d("12123123",messageItem.getUserToken()+":"+userToke);
             return;
         }
         matchDocument.document(messageItem.getGame_id()).collection("User").document(messageItem.getDocumentKey()).delete();

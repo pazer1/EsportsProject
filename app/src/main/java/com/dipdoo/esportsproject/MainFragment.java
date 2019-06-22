@@ -22,7 +22,7 @@ import java.util.List;
 public class MainFragment extends Fragment {
 
     private final static String ITEMS_COUNT_KEY = "PartThreeFragment&ItmesCount";
-    ArrayList matchList;
+    ArrayList matchList,subList;
     RecyclerAdapter recyclerAdapter;
     RecyclerView recyclerView;
 
@@ -37,6 +37,7 @@ public class MainFragment extends Fragment {
             Match match = (Match)matchList.get(i);
             Log.d("matinfrgment11111",match.getStatus());
         }
+
         mainFragment.setArguments(bundle);
         return mainFragment;
 
@@ -45,6 +46,7 @@ public class MainFragment extends Fragment {
 
     private void setUpmatchList(ArrayList matchList){
         this.matchList = matchList;
+
         for (int i = 0; i < matchList.size(); i++){
             Match match = (Match)matchList.get(i);
             Log.d("matinfrgment33333",match.getStatus());
@@ -62,12 +64,13 @@ public class MainFragment extends Fragment {
             Match match = (Match)matchList.get(i);
             Log.d("onCreateView33333",match.getStatus());
         }
-        setupRecyclerView(recyclerView);
+        setupRecyclerView(recyclerView,matchList);
         return recyclerView;
     }
 
 
-    private void setupRecyclerView(RecyclerView recyclerView){
+
+    private void setupRecyclerView(RecyclerView recyclerView, ArrayList matchList){
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 

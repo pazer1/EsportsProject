@@ -60,9 +60,13 @@ public class UtcToLocal {
     public static String getCurrentTime(long pluseTominus){
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        long forthDay = (1000*60*60*24) *6;
+
+        TimeZone tz = TimeZone.getDefault();
+        long milliseconds = System.currentTimeMillis();
+        int offset = tz.getOffset(milliseconds);
+        long forthDay = (1000*60*60*24) *2;
         forthDay = forthDay*pluseTominus;
-        String currenttime = simpleDateFormat.format(System.currentTimeMillis()+forthDay);
+        String currenttime = simpleDateFormat.format(milliseconds+forthDay);
         return String.valueOf(currenttime);
     }
 
