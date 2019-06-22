@@ -6,6 +6,11 @@ public class FirebaseMatchField {
 
     int team1Name;
     int team2Name;
+    ArrayList tokenList;
+
+    public FirebaseMatchField() {
+        tokenList = new ArrayList();
+    }
 
     public int getTeam1Name() {
         return team1Name;
@@ -23,7 +28,11 @@ public class FirebaseMatchField {
         this.team2Name = team2Name;
     }
 
-    ArrayList<String>tokenList = new ArrayList<>();
+    public ArrayList getTokenList() {
+        return tokenList;
+    }
 
-
+    public void setTokenList(ArrayList tokenList) {
+        this.tokenList = tokenList;
+    }
 }

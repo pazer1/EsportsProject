@@ -89,7 +89,7 @@ public class FirebaseConnect {
         return String.valueOf((int)percent+"%");
     }
 
-    public void getVoteView(final View team1VoteView, View team2VoteView, String game_id, final View team1Percent, final View team2Percent,final String gameStatus){
+    public void getVoteView(final View team1VoteView, View team2VoteView, final String game_id, final View team1Percent, final View team2Percent, final String gameStatus){
 
         final TextView team1View = (TextView) team1VoteView;
         final TextView team2View = (TextView) team2VoteView;
@@ -102,11 +102,16 @@ public class FirebaseConnect {
                 voteNum1 = (Long)documentSnapshot.get("team1Name");
                 voteNum2 = (Long)documentSnapshot.get("team2Name");
                 ArrayList tokenList = (ArrayList) documentSnapshot.get("tokenList");
-                if(tokenList.contains(userToke) || !(gameStatus.equals("not_started"))){
-                    team1View.setText(String.valueOf(voteNum1));
-                    team2View.setText(String.valueOf(voteNum2));
-                    ((TextView) team1percentView).setText(calPercent(voteNum1,voteNum2));
-                    ((TextView) team2percentView).setText(calPercent(voteNum2,voteNum1));
+                if(tokenList !=null){
+                    if(tokenList.contains(userToke) || !(gameStatus.equals("not_started"))){
+                        team1View.setText(String.valueOf(voteNum1));
+                        team2View.setText(String.valueOf(voteNum2));
+                        ((TextView) team1percentView).setText(calPercent(voteNum1,voteNum2));
+                        ((TextView) team2percentView).setText(calPercent(voteNum2,voteNum1));
+                    }
+                }else{
+
+
                 }
             }
         });
@@ -121,6 +126,7 @@ public class FirebaseConnect {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     ArrayList tokenList = (ArrayList) task.getResult().get("tokenList");
+
                     if(tokenList.contains(userToke)){
                         myToast=Toast.makeText(context,"투표는 한번만 가능합니다",Toast.LENGTH_SHORT);
                         myToast.show();
@@ -163,7 +169,6 @@ public class FirebaseConnect {
 
     public void deleteMessage(MessageItem messageItem){
         if(!messageItem.getUserToken().equals(userToke)){
-            Log.d("12123123",messageItem.getUserToken()+":"+userToke);
             return;
         }
         matchDocument.document(messageItem.getGame_id()).collection("User").document(messageItem.getDocumentKey()).delete();
