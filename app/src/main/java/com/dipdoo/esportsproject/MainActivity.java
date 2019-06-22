@@ -19,7 +19,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -54,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     Matches matches;
     PagerAdapter pagerAdapter;
     FragmentManager fragmentManager;
+    Spinner spinner;
     static long btnClickTime=0;
     static int currentTabPosition=100;
 
@@ -69,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         tabLayout = findViewById(R.id.tabLayout);
         fragmentManager = getSupportFragmentManager();
+        spinner = findViewById(R.id.main_spinner);
         if(matches.size()<=0) {
             new ApiCall().excute(progressBar);
             MainHandler handler = new MainHandler();
@@ -78,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         loadMap();
         progressBar.setVisibility(View.GONE);
         initToolbar();
-
+        initSpinner();
 //       여기서
         FirebaseConnect.getFirebaseConnect().loadDB();
 
@@ -97,7 +104,10 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
 
-
+    private void initSpinner(){
+        ArrayList category = new ArrayList<>();
+        category.add("LCK");
+    }
 
 
     @Override
