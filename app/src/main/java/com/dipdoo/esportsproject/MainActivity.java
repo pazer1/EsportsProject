@@ -166,19 +166,6 @@ public class MainActivity extends AppCompatActivity {
                         setCategory("LMS");
                         break;
                 }
-
-
-
-
-//                if(position==1){
-//                    for(int i=0; i<((com.dipdoo.esportsproject.Adapter.PagerAdapter) pagerAdapter).getFragmentList().size(); i++){
-//                        MainFragment mainFragment =(MainFragment) ((com.dipdoo.esportsproject.Adapter.PagerAdapter) pagerAdapter).getFragmentList().get(i);
-//                        ((MainFragment)mainFragment).matchList.clear();
-//                        ArrayList arr = (ArrayList) matchLists.get(i);
-//
-//                        pagerAdapter.notifyDataSetChanged();
-//                    }
-//                }
             }
 
             @Override
