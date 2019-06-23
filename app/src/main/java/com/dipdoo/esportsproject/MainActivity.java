@@ -39,6 +39,7 @@ import com.dipdoo.esportsproject.Util.UtcToLocal;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -109,17 +110,53 @@ public class MainActivity extends AppCompatActivity {
         String[] category = {"전체보기","LCK","LPL","LCS","LEC","LMS"};
         int[] categoryImg ={R.drawable.riot_logo,R.drawable.lck_logo,R.drawable.lpl_logo,R.drawable.lcs_logo,R.drawable.lec_logo,R.drawable.lms_logo};
 
+        final ArrayList[] matchLists = {new ArrayList()};
+        int temp=0;
+        if(matches.size() >0) {
+            Iterator it = matches.keySet().iterator();
+            String kecode;
+            while (it.hasNext()) {
+                kecode = (String) it.next();
+                ArrayList secondList = new ArrayList();
+                for(int j=0; j<matches.get(kecode).size(); j++){
+                    secondList.add(matches.get(kecode).get(j));
+                }
+                matchLists[temp].add(secondList);
+                temp++;
+            }
+        }
         SpinnerAdapter adapter = new com.dipdoo.esportsproject.Adapter.SpinnerAdapter(this,category,categoryImg);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position==1){
-                    for(int i=0; i<fragmentManager.getFragments().size(); i++){
-                        MainFragment mainFragment = (MainFragment) fragmentManager.getFragments().get(i);
-                        ((MainFragment)mainFragment).matchList.clear();
-                        ((MainFragment)mainFragment).recyclerAdapter.notifyDataSetChanged();
+
+
+                if(position==2){
+                    for(int i=0; i<((com.dipdoo.esportsproject.Adapter.PagerAdapter) pagerAdapter).getFragmentList().size(); i++){
+                        MainFragment mainFragment =(MainFragment) ((com.dipdoo.esportsproject.Adapter.PagerAdapter) pagerAdapter).getFragmentList().get(i);
+                        }
                         pagerAdapter.notifyDataSetChanged();
+                        Toast.makeText(MainActivity.this, "22", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                if(position==1){
+                    for(int i=0; i<((com.dipdoo.esportsproject.Adapter.PagerAdapter) pagerAdapter).getFragmentList().size(); i++){
+                        MainFragment mainFragment =(MainFragment) ((com.dipdoo.esportsproject.Adapter.PagerAdapter) pagerAdapter).getFragmentList().get(i);
+                        ((MainFragment)mainFragment).matchList.clear();
+                        pagerAdapter.notifyDataSetChanged();
+                    }
+                    if(matches.size() >0){
+                        Iterator it = matches.keySet().iterator();
+                        String kecode;
+                        int temp=0;
+                        while (it.hasNext()){
+                            temp++;
+                            kecode = (String)it.next();
+                            matchLists[0] = matches.get(kecode);
+                            Log.d("matchListSize",matchLists[0].size()+"");
+                        }
                     }
                 }
             }
@@ -245,7 +282,6 @@ public class MainActivity extends AppCompatActivity {
         setTitle(getString(R.string.app_name));
 
         pagerAdapter = new com.dipdoo.esportsproject.Adapter.PagerAdapter(fragmentManager);
-
 
         Set keyset = matches.keySet();
         Iterator it1 = keyset.iterator();
