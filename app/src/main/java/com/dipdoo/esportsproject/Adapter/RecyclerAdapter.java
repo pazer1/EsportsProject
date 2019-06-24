@@ -122,9 +122,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
                     mContext.startActivity(i);
 //                    Intent intent = mContext.getPackageManager().getLaunchIntentForPackage("tv.twitch.android.app");
 //                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    mContext.startActivity(intent);
+//                    mContext.startActivity(inteLnt);
                 }else{
                     String url = "market://details?id=" + "tv.twitch.android.app";
+//                    String url ="market://details?id="+"kr.co.nowcom.mobile.afreeca";
                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     mContext.startActivity(i);
                 }

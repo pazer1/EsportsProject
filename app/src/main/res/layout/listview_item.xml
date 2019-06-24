@@ -142,7 +142,7 @@
 
             <ImageView
                 android:id="@+id/iv_twitch"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_below="@id/tv_result"
                 android:layout_marginTop="5dp"
                 android:layout_centerHorizontal="true"
