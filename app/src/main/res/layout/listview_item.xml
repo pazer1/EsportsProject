@@ -146,7 +146,7 @@
                 android:layout_below="@id/tv_result"
                 android:layout_marginTop="5dp"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/twitch_icon"
+                android:src="@null"
                 android:layout_centerVertical="true"
                 android:layout_width="40dp"
                 android:layout_height="40dp" />

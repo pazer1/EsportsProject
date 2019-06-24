@@ -113,6 +113,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         holder.team1Name.setText(team1Name);
         holder.team2Name.setText(team2Name);
         holder.match_name.setText(matchList.get(i).getName());
+
         holder.twitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,6 +186,26 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         holder.timeText.setText(detail_begin_at);
         holder.setNoti(begin_at,detail_begin_at,team1Name,team2Name,team1Img,team2Img,matchId,status);
         holder.leaguName.setText(matchList.get(i).getLeague().getName());
+
+
+        switch (holder.leaguName.getText().toString()){
+            case "LCK":
+                holder.twitch.setImageDrawable(mContext.getResources().getDrawable(R.drawable.twitch_icon));
+                break;
+            case "LPL":
+                holder.twitch.setImageDrawable(mContext.getResources().getDrawable(R.drawable.afreecatv));
+                break;
+            case "LCS":
+                holder.twitch.setImageDrawable(mContext.getResources().getDrawable(R.drawable.navertv));
+                break;
+            case "LEC":
+                holder.twitch.setImageDrawable(mContext.getResources().getDrawable(R.drawable.navertv));
+                break;
+            default:
+                break;
+        }
+
+
         holder.setDetailFragment(team1Img,team2Img,team1Name,team2Name,status,matchList.get(i).getTournament().getName(),matchList.get(i).getTournament().getSlug(),String.valueOf(matchList.get(i).getId()),detail_begin_at);
 
 

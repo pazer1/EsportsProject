@@ -348,9 +348,10 @@ public class MainActivity extends AppCompatActivity {
         //tabLayout.getTabAt(1).select();
         for(int i = 0; i<tabLayout.getTabCount(); i++){
             if(tabLayout.getTabAt(i).getText().toString().equals(ss)){
-                tabLayout.getTabAt(i).select();
-                Log.d("today",ss);
                 tabLayout.getTabAt(i).setCustomView(view);
+                tabLayout.getTabAt(i).select();
+                tabLayout.getTabAt(i).setText(ss);
+                Log.d("today",ss);
             }
         }
         if(currentTabPosition !=100){
