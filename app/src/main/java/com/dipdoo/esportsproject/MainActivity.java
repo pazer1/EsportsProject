@@ -340,8 +340,9 @@ public class MainActivity extends AppCompatActivity {
 
         View view= LayoutInflater.from(this).inflate(R.layout.today_tab,null);
         TextView  tv = view.findViewById(R.id.tab_date);
-        pagerAdapter.notifyDataSetChanged();
         tv.setText(ss);
+
+        pagerAdapter.notifyDataSetChanged();
         int centerPostion = tabLayout.getTabCount();
         centerPostion = centerPostion/2;
         tabLayout.getTabAt(centerPostion).select();
@@ -350,12 +351,12 @@ public class MainActivity extends AppCompatActivity {
             if(tabLayout.getTabAt(i).getText().toString().equals(ss)){
                 tabLayout.getTabAt(i).setCustomView(view);
                 tabLayout.getTabAt(i).select();
-                tabLayout.getTabAt(i).setText(ss);
                 Log.d("today",ss);
             }
         }
         if(currentTabPosition !=100){
             tabLayout.getTabAt(currentTabPosition).select();
+
         }
     }
 
