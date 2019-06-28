@@ -472,9 +472,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 if(checkBox.isChecked()){
-//                    체크 되있으면
+                    Toast.makeText(MainActivity.this, "쳌드", Toast.LENGTH_SHORT).show();
                 }else{
-                    //안되있으면
+                    Toast.makeText(MainActivity.this, "너체크", Toast.LENGTH_SHORT).show();
                 }
             }
         });
