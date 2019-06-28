@@ -444,6 +444,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.fab2:
                 anim();
+                SharedPreferences sf = getSharedPreferences("twitchsave",MODE_PRIVATE);
+                String ss =sf.getString("twitchsave","null");
+                if(ss.equals("twitch")){
+                    Toast.makeText(this, "있어요", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(this, "없어요!", Toast.LENGTH_SHORT).show();
+                }
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 alertDialog = builder.create();
                 View view = getTvDialog("twitch");
@@ -461,20 +468,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private View getTvDialog(String tvName){
+    private View getTvDialog(final String tvName){
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.tvdialog,null);
         ImageView imageView = view.findViewById(R.id.tvdialog_iv);
         TextView tv = view.findViewById(R.id.tvdialog_tv);
         Button negative = view.findViewById(R.id.dialog_negativie);
+        Button positivie = view.findViewById(R.id.dialog_positive);
         final CheckBox checkBox = view.findViewById(R.id.tvdialog_check);
         negative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(alertDialog !=null){
+                    alertDialog.dismiss();
+                }
+            }
+        });
+        positivie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 if(checkBox.isChecked()){
-                    Toast.makeText(MainActivity.this, "쳌드", Toast.LENGTH_SHORT).show();
+                    SharedPreferences sf = getSharedPreferences(tvName+"save",MODE_PRIVATE);
+                    Toast.makeText(MainActivity.this, sf.getString(tvName+"save","null"), Toast.LENGTH_SHORT).show();
+                    if(sf.getString(tvName+"save","null").equals("null")){
+                        Toast.makeText(MainActivity.this, "saddad", Toast.LENGTH_SHORT).show();
+                        SharedPreferences.Editor editor = sf.edit();
+                        editor.putString(tvName+"save",tvName);
+                        editor.commit();
+                    }
                 }else{
-                    Toast.makeText(MainActivity.this, "너체크", Toast.LENGTH_SHORT).show();
                 }
             }
         });
