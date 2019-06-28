@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +26,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -80,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
     private FloatingActionButton fab, fab2, fab3,fab4;
+    AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -439,7 +444,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.fab2:
                 anim();
-                Toast.makeText(this, "Button1", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                alertDialog = builder.create();
+                View view = getTvDialog("twitch");
+                builder.setView(view);
+                builder.show();
                 break;
             case R.id.fab3:
                 anim();
@@ -450,6 +459,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "Button2", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    private View getTvDialog(String tvName){
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.tvdialog,null);
+        ImageView imageView = view.findViewById(R.id.tvdialog_iv);
+        TextView tv = view.findViewById(R.id.tvdialog_tv);
+        Button negative = view.findViewById(R.id.dialog_negativie);
+        final CheckBox checkBox = view.findViewById(R.id.tvdialog_check);
+        negative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(checkBox.isChecked()){
+//                    체크 되있으면
+                }else{
+                    //안되있으면
+                }
+            }
+        });
+        if(tvName.equals("twitch")){
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.twitch_icon));
+            tv.setText(tvName+"로 이동합니다. 만일 "+tvName+"앱이 존재하지 않을 시 플레이스토어로 이동합니다");
+        }
+        return view;
     }
 
 

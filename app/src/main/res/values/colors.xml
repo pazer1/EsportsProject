@@ -11,4 +11,6 @@
     <color name="staus_future_text">#000000</color>
     <color name="status_live_backgroud">#B4FF0000</color>
     <color name="main_toolbar">#353535</color>
+    <color name="navertv">#71F3AA</color>
+    <color name="twitchtv">#B18BF7</color>
 </resources>

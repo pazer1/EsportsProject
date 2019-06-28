@@ -101,18 +101,18 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab2"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="10sp"
+        android:layout_marginRight="5dp"
         android:layout_marginBottom="65dp"
-        android:backgroundTint="@android:color/white"
-        android:elevation="0dp"
+        android:backgroundTint="@color/twitchtv"
+        android:elevation="20dp"
         app:borderWidth="0dp"
         android:visibility="invisible"
         android:scaleType="centerCrop"
-        app:fabCustomSize="45dp"
+        app:fabCustomSize="55dp"
         android:src="@drawable/twitch_icon"
         app:pressedTranslationZ="@dimen/cardview_compat_inset_shadow" />
     <android.support.design.widget.FloatingActionButton
@@ -120,18 +120,18 @@
         android:src="@drawable/navertv"
         android:layout_marginBottom="115dp"
         android:layout_alignParentBottom="true"
-        android:backgroundTint="@android:color/white"
+        android:backgroundTint="@color/navertv"
         android:layout_alignParentRight="true"
-        app:fabCustomSize="45dp"
+        app:fabCustomSize="55dp"
         android:background="@drawable/afreecatv"
         android:scaleType="matrix"
-        android:elevation="1dp"
+        android:elevation="20dp"
         app:borderWidth="0dp"
         app:pressedTranslationZ="1dp"
         android:visibility="invisible"
-        android:layout_marginRight="10sp"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_marginRight="5dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp" />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab4"
         android:src="@drawable/afreecatv"
@@ -139,13 +139,12 @@
         android:layout_alignParentBottom="true"
         android:backgroundTint="@android:color/white"
         android:layout_alignParentRight="true"
-        android:scaleType="matrix"
-        android:layout_marginRight="10sp"
-        android:elevation="1dp"
+        android:layout_marginRight="5dp"
+        android:elevation="20dp"
         android:visibility="invisible"
-        app:fabCustomSize="45dp"
+        app:fabCustomSize="55dp"
         app:borderWidth="0dp"
         app:pressedTranslationZ="1dp"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_width="55dp"
+        android:layout_height="55dp" />
 </RelativeLayout >
