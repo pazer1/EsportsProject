@@ -80,12 +80,72 @@
         <!--android:layout_height="match_parent">-->
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
             ></android.support.v4.view.ViewPager>
     <!--</android.support.v4.widget.SwipeRefreshLayout>-->
     </android.support.design.widget.CoordinatorLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_margin="5dp"
+        android:src="@drawable/riot_logo"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:layout_alignParentRight="true"
+        app:pressedTranslationZ="@dimen/cardview_compat_inset_shadow"
+        android:elevation="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="10sp"
+        android:layout_marginBottom="65dp"
+        android:backgroundTint="@android:color/white"
+        android:elevation="0dp"
+        app:borderWidth="0dp"
+        android:visibility="invisible"
+        android:scaleType="centerCrop"
+        app:fabCustomSize="45dp"
+        android:src="@drawable/twitch_icon"
+        app:pressedTranslationZ="@dimen/cardview_compat_inset_shadow" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab3"
+        android:src="@drawable/navertv"
+        android:layout_marginBottom="115dp"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@android:color/white"
+        android:layout_alignParentRight="true"
+        app:fabCustomSize="45dp"
+        android:background="@drawable/afreecatv"
+        android:scaleType="matrix"
+        android:elevation="1dp"
+        app:borderWidth="0dp"
+        app:pressedTranslationZ="1dp"
+        android:visibility="invisible"
+        android:layout_marginRight="10sp"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab4"
+        android:src="@drawable/afreecatv"
+        android:layout_marginBottom="165dp"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@android:color/white"
+        android:layout_alignParentRight="true"
+        android:scaleType="matrix"
+        android:layout_marginRight="10sp"
+        android:elevation="1dp"
+        android:visibility="invisible"
+        app:fabCustomSize="45dp"
+        app:borderWidth="0dp"
+        app:pressedTranslationZ="1dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
 </RelativeLayout >

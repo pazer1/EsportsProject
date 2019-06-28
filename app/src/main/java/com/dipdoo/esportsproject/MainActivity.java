@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +21,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
@@ -38,6 +41,7 @@ import com.dipdoo.esportsproject.Util.UtcToLocal;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
@@ -49,7 +53,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static long CheckTime = 4000;
     private final long btnBtweenTime = 10000;
@@ -59,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private final int LCS=3;
     private final int LEC=4;
     private final int LMS=5;
+    private final int RIFT=6;
 
     ProgressBar progressBar;
     Toolbar toolbar;
@@ -72,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
     static int currentTabPosition=100;
     ArrayList matchLists;
 
-
+    private Animation fab_open, fab_close;
+    private Boolean isFabOpen = false;
+    private FloatingActionButton fab, fab2, fab3,fab4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +92,19 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabLayout);
         fragmentManager = getSupportFragmentManager();
         spinner = findViewById(R.id.main_spinner);
+
+        fab_open = AnimationUtils.loadAnimation(this,R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(this,R.anim.fab_close);
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab2 = (FloatingActionButton) findViewById(R.id.fab2);
+        fab3 = (FloatingActionButton) findViewById(R.id.fab3);
+        fab4 = (FloatingActionButton) findViewById(R.id.fab4);
+        fab.setOnClickListener(this);
+        fab2.setOnClickListener(this);
+        fab3.setOnClickListener(this);
+        fab4.setOnClickListener(this);
+
         if(matches.size()<=0) {
             new ApiCall().excute(progressBar);
             MainHandler handler = new MainHandler();
@@ -113,9 +133,30 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
 
+    public void anim() {
+
+        if (isFabOpen) {
+            fab2.startAnimation(fab_close);
+            fab3.startAnimation(fab_close);
+            fab4.startAnimation(fab_close);
+            fab2.setClickable(false);
+            fab3.setClickable(false);
+            fab4.setClickable(false);
+            isFabOpen = false;
+        } else {
+            fab2.startAnimation(fab_open);
+            fab3.startAnimation(fab_open);
+            fab4.startAnimation(fab_open);
+            fab2.setClickable(true);
+            fab3.setClickable(true);
+            fab4.setClickable(true);
+            isFabOpen = true;
+        }
+    }
+
     private void initSpinner(){
-        String[] category = {"전체보기","LCK","LPL","LCS","LEC","LMS"};
-        int[] categoryImg ={R.drawable.riot_logo,R.drawable.lck_logo,R.drawable.lpl_logo,R.drawable.lcs_logo,R.drawable.lec_logo,R.drawable.lms_logo};
+        String[] category = {"전체보기","LCK","LPL","LCS","LEC","LMS","RIFT"};
+        int[] categoryImg ={R.drawable.riot_logo,R.drawable.lck_logo,R.drawable.lpl_logo,R.drawable.lcs_logo,R.drawable.lec_logo,R.drawable.lms_logo,R.drawable.rift_rivals_resize};
 
         matchLists = new ArrayList();
         int temp=0;
@@ -164,6 +205,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case LMS:
                         setCategory("LMS");
+                        break;
+                    case RIFT:
+                        setCategory("Rift");
                         break;
                 }
             }
@@ -339,8 +383,9 @@ public class MainActivity extends AppCompatActivity {
         ss = UtcToLocal.getUtcToLocal().getTimeSystem(ss,this);
 
         View view= LayoutInflater.from(this).inflate(R.layout.today_tab,null);
-        TextView  tv = view.findViewById(R.id.tab_date);
-        tv.setText(ss);
+        TextView tv = view.findViewById(R.id.tab_date);
+        tv.setText("오늘");
+        tv.setTextColor(getResources().getColor(R.color.colorAccent));
 
         pagerAdapter.notifyDataSetChanged();
         int centerPostion = tabLayout.getTabCount();
@@ -349,14 +394,16 @@ public class MainActivity extends AppCompatActivity {
         //tabLayout.getTabAt(1).select();
         for(int i = 0; i<tabLayout.getTabCount(); i++){
             if(tabLayout.getTabAt(i).getText().toString().equals(ss)){
-                tabLayout.getTabAt(i).setCustomView(view);
+
                 tabLayout.getTabAt(i).select();
-                Log.d("today",ss);
+                tabLayout.getTabAt(i).setText("ddd");
+                tabLayout.getTabAt(i).setCustomView(view);
+                tabLayout.getTabAt(i).setCustomView(R.layout.today_tab);
             }
         }
+
         if(currentTabPosition !=100){
             tabLayout.getTabAt(currentTabPosition).select();
-
         }
     }
 
@@ -379,6 +426,29 @@ public class MainActivity extends AppCompatActivity {
             editor.remove("My_map").commit();
             editor.putString("My_map",jsonString);
             editor.commit();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.fab:
+                anim();
+                Toast.makeText(this, "Floating Action Button", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.fab2:
+                anim();
+                Toast.makeText(this, "Button1", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.fab3:
+                anim();
+                Toast.makeText(this, "Button2", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.fab4:
+                anim();
+                Toast.makeText(this, "Button2", Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 

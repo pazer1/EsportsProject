@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:padding="1dp"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <TextView
+        android:text="asdasdasd"
         android:id="@+id/tab_date"
         android:textStyle="bold"
-        android:textSize="14sp"
         android:textColor="@android:color/holo_red_light"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</RelativeLayout>
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</FrameLayout>

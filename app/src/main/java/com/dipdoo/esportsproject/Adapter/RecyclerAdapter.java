@@ -204,6 +204,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
             default:
                 break;
         }
+        if(holder.leaguName.getText().toString().contains("Rift")){
+            holder.twitch.setImageDrawable(mContext.getResources().getDrawable(R.drawable.twitch_icon));
+        }
 
 
         holder.setDetailFragment(team1Img,team2Img,team1Name,team2Name,status,matchList.get(i).getTournament().getName(),matchList.get(i).getTournament().getSlug(),String.valueOf(matchList.get(i).getId()),detail_begin_at);
