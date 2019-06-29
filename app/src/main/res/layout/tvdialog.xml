@@ -4,8 +4,8 @@
     android:padding="20dp"
     android:layout_margin="20dp"
     android:gravity="center"
-    android:layout_width="200dp"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="300dp">
 
     <ImageView
         android:id="@+id/tvdialog_iv"
@@ -16,11 +16,14 @@
         android:id="@+id/tvdialog_tv"
         android:text="asdadasd"
         android:layout_marginLeft="10dp"
+        android:textSize="15sp"
+        android:lineSpacingMultiplier="1"
+        android:textColor="@android:color/black"
         android:layout_toRightOf="@id/tvdialog_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
         <LinearLayout
-            android:layout_below="@id/tvdialog_iv"
+            android:layout_below="@id/tvdialog_tv"
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:gravity="center"

@@ -1,6 +1,7 @@
 package com.dipdoo.esportsproject;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -313,6 +314,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else isIntalled.setYoutube(false);
         if(isPackageInstalled("com.nhn.android.naverplayer",this))isIntalled.setNaverTv(true);
         else isIntalled.setNaverTv(false);
+        if(isPackageInstalled("kr.co.nowcom.mobile.afreeca",this))isIntalled.setAfreecaTv(true);
+        else isIntalled.setAfreecaTv(false);
     }
 
 
@@ -444,6 +447,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (id) {
             case R.id.fab:
                 anim();
+                Toast.makeText(this, "메인0", Toast.LENGTH_SHORT).show();
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                View view = LayoutInflater.from(this).inflate(R.layout.tvdialog,null);
+                builder.setView(view);
+                ((TextView)view.findViewById(R.id.tvdialog_tv)).setText("앱이 존재할 시 Twitch는 LCK채널로, 네이버 TV는 LCS/LEC채널로,아프리카는 LCK채널로 이동합니다.공식 LPL 한국어 중계 방송이 없습니다."+"\n"+"만일 앱이 존재하지 않을 시 해당 앱 다운로드 링크로 이동합니다.");
+                ((ImageView)view.findViewById(R.id.tvdialog_iv)).setImageDrawable(getResources().getDrawable(R.drawable.riot_logo));
+                view.findViewById(R.id.dialog_negativie).setVisibility(View.GONE);
+                view.findViewById(R.id.dialog_positive).setVisibility(View.GONE);
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                final CheckBox checkBox = view.findViewById(R.id.tvdialog_check);
+
+                builder.setCancelable(false);
+                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        if (checkBox.isChecked()){
+
+                            SharedPreferences sharedPreferences = getSharedPreferences("confirm",MODE_PRIVATE);
+                            String sharedString = sharedPreferences.getString("confirm","null");
+                            Log.d("confirm",sharedString);
+                            if(!sharedString.equals("confirmed")){
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("confirm","confirmed");
+                                editor.commit();
+                            }
+                        }
+                    }
+                });
+                if(getSharedPreferences("confirm",MODE_PRIVATE).getString("confirm","null").equals("confirmed")){
+                    return;
+                }else{
+                    builder.show();
+                }
+
+
                 break;
             case R.id.fab2:
                 isInstalled = IsIntalled.getInstance().isTwitch();
@@ -464,7 +507,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.fab3:
                 anim();
-                uri = "navertv://stream/LCK_Korea";
+                uri = "navertv://channel/lcsnv";
                 installuri = "market://details?id="+"com.nhn.android.naverplayer";
                 isInstalled = IsIntalled.getInstance().isNaverTv();
                 anim();
@@ -472,7 +515,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ss =sf.getString("naversave","null");
                 if(ss.equals("naver")){
                     //이미 있는거 바로 가면되고
-                    Toast.makeText(this, "바로감", Toast.LENGTH_SHORT).show();
                     goTv(uri,installuri,isInstalled);
                 }else{
                     //다시 alert 다이얼로그 띄우면됨
@@ -482,7 +524,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.fab4:
                 anim();
-                Toast.makeText(this, "Button2", Toast.LENGTH_SHORT).show();
+                uri = "http://bj.afreecatv.com/aflol";
+                installuri = "market://details?id="+"kr.co.nowcom.mobile.afreeca";
+                isInstalled = IsIntalled.getInstance().isAfreecaTv();
+                Toast.makeText(this, isInstalled+"", Toast.LENGTH_SHORT).show();
+                anim();
+                sf = getSharedPreferences("afreecasave",MODE_PRIVATE);
+                ss =sf.getString("afreecasave","null");
+                if(ss.equals("afreeca")){
+                    //이미 있는거 바로 가면되고
+                    goTv(uri,installuri,isInstalled);
+                }else{
+                    //다시 alert 다이얼로그 띄우면됨
+                    AlertDialog dialog = getTvDialog("afreeca",uri,R.drawable.afreecatv,installuri,isInstalled);
+                    dialog.show();
+                }
                 break;
         }
     }
@@ -503,7 +559,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         negative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "네", Toast.LENGTH_SHORT).show();
                     alertDialog.dismiss();
             }
         });

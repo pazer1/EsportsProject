@@ -13,6 +13,15 @@ public class IsIntalled  {
     private boolean isNaverTv;
     private boolean isTwitch;
     private boolean isYoutube;
+    private boolean isAfreecaTv;
+
+    public boolean isAfreecaTv() {
+        return isAfreecaTv;
+    }
+
+    public void setAfreecaTv(boolean afreecaTv) {
+        isAfreecaTv = afreecaTv;
+    }
 
     public boolean isNaverTv() {
         return isNaverTv;
