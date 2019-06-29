@@ -10,9 +10,17 @@ public class IsIntalled  {
         }
         return isIntalled;
     }
-
+    private boolean isNaverTv;
     private boolean isTwitch;
     private boolean isYoutube;
+
+    public boolean isNaverTv() {
+        return isNaverTv;
+    }
+
+    public void setNaverTv(boolean naverTv) {
+        isNaverTv = naverTv;
+    }
 
     public boolean isTwitch(){return isTwitch;}
     public void setTwitch(boolean twitch){isTwitch = twitch;}

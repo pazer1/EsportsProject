@@ -311,6 +311,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else isIntalled.setTwitch(false);
         if(isPackageInstalled("com.google.android.youtube",this)) isIntalled.setYoutube(true);
         else isIntalled.setYoutube(false);
+        if(isPackageInstalled("com.nhn.android.naverplayer",this))isIntalled.setNaverTv(true);
+        else isIntalled.setNaverTv(false);
     }
 
 
@@ -331,7 +333,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         try{
             if(pSharedPref != null){
                 String jsonString = pSharedPref.getString("My_map",(new JSONObject()).toString());
-                Log.d("key",jsonString);
                 JSONObject jsonObject = new JSONObject(jsonString);
                 Iterator<String> keysItr = jsonObject.keys();
                 while(keysItr.hasNext()){
@@ -436,26 +437,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        String uri,ss,installuri;
+        SharedPreferences sf;
+        boolean isInstalled;
         int id = v.getId();
         switch (id) {
             case R.id.fab:
                 anim();
                 break;
             case R.id.fab2:
+                isInstalled = IsIntalled.getInstance().isTwitch();
+                uri = "twitch://stream/LCK_Korea";
+                installuri = "market://details?id=" + "tv.twitch.android.app";
                 anim();
-                SharedPreferences sf = getSharedPreferences("twitchsave",MODE_PRIVATE);
-                String ss =sf.getString("twitchsave","null");
+                sf = getSharedPreferences("twitchsave",MODE_PRIVATE);
+                ss =sf.getString("twitchsave","null");
                 if(ss.equals("twitch")){
                     //이미 있는거 바로 가면되고
+                    Toast.makeText(this, "바로감", Toast.LENGTH_SHORT).show();
+                    goTv(uri,installuri,isInstalled);
                 }else{
                     //다시 alert 다이얼로그 띄우면됨
-                    AlertDialog dialog = getTvDialog("twitch");
+                    AlertDialog dialog = getTvDialog("twitch",uri,R.drawable.twitch_icon,installuri,isInstalled);
                     dialog.show();
                 }
                 break;
             case R.id.fab3:
                 anim();
-                Toast.makeText(this, "Button2", Toast.LENGTH_SHORT).show();
+                uri = "navertv://stream/LCK_Korea";
+                installuri = "market://details?id="+"com.nhn.android.naverplayer";
+                isInstalled = IsIntalled.getInstance().isNaverTv();
+                anim();
+                sf = getSharedPreferences("naversave",MODE_PRIVATE);
+                ss =sf.getString("naversave","null");
+                if(ss.equals("naver")){
+                    //이미 있는거 바로 가면되고
+                    Toast.makeText(this, "바로감", Toast.LENGTH_SHORT).show();
+                    goTv(uri,installuri,isInstalled);
+                }else{
+                    //다시 alert 다이얼로그 띄우면됨
+                    AlertDialog dialog = getTvDialog("naver",uri,R.drawable.navertv,installuri,isInstalled);
+                    dialog.show();
+                }
                 break;
             case R.id.fab4:
                 anim();
@@ -464,14 +487,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private AlertDialog getTvDialog(final String tvName){
+    private AlertDialog getTvDialog(final String tvName, final String uri, int image, final String installuri, final boolean isInstalled){
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.tvdialog,null);
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setView(view);
         final AlertDialog alertDialog = builder.create();
         ImageView imageView = view.findViewById(R.id.tvdialog_iv);
+        imageView.setImageDrawable(getResources().getDrawable(image));
         TextView tv = view.findViewById(R.id.tvdialog_tv);
+        tv.setText(tvName+"앱으로 이동합니다. 만일 "+tvName+" 앱이 설치되지 않았다면 설치 페이지로 이동합니다.");
         Button negative = view.findViewById(R.id.dialog_negativie);
         Button positivie = view.findViewById(R.id.dialog_positive);
         final CheckBox checkBox = view.findViewById(R.id.tvdialog_check);
@@ -498,7 +523,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //그냥가고
                 }
                 alertDialog.dismiss();
-                goTv();
+                goTv(uri,installuri,isInstalled);
 
             }
         });
@@ -508,18 +533,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //    트위치 유투브 깔려 있는지 확인;
 
-    private void goTv(){
-        if(IsIntalled.getInstance().isTwitch()){
-            String uri = "twitch://stream/LCK_Korea";
+    private void goTv(String uri,String installurl,boolean isInstalled){
+        if(isInstalled){
             Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
             this.startActivity(i);
 //                    Intent intent = mContext.getPackageManager().getLaunchIntentForPackage("tv.twitch.android.app");
 //                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                    mContext.startActivity(inteLnt);
         }else{
-            String url = "market://details?id=" + "tv.twitch.android.app";
 //                    String url ="market://details?id="+"kr.co.nowcom.mobile.afreeca";
-            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(installurl));
             this.startActivity(i);
         }
     }
