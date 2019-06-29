@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Animation fab_open, fab_close;
     private Boolean isFabOpen = false;
     private FloatingActionButton fab, fab2, fab3,fab4;
-    AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -450,11 +449,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //이미 있는거 바로 가면되고
                 }else{
                     //다시 alert 다이얼로그 띄우면됨
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    alertDialog = builder.create();
-                    View view = getTvDialog("twitch");
-                    builder.setView(view);
-                    builder.show();
+                    AlertDialog dialog = getTvDialog("twitch");
+                    dialog.show();
                 }
                 break;
             case R.id.fab3:
@@ -468,9 +464,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private View getTvDialog(final String tvName){
+    private AlertDialog getTvDialog(final String tvName){
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.tvdialog,null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setView(view);
+        final AlertDialog alertDialog = builder.create();
         ImageView imageView = view.findViewById(R.id.tvdialog_iv);
         TextView tv = view.findViewById(R.id.tvdialog_tv);
         Button negative = view.findViewById(R.id.dialog_negativie);
@@ -498,11 +497,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //체크박스 체크가아니면
                     //그냥가고
                 }
-                goTv();
                 alertDialog.dismiss();
+                goTv();
+
             }
         });
-        return view;
+        return alertDialog;
     }
 
 
