@@ -447,11 +447,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (id) {
             case R.id.fab:
                 anim();
-                Toast.makeText(this, "메인0", Toast.LENGTH_SHORT).show();
                 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 View view = LayoutInflater.from(this).inflate(R.layout.tvdialog,null);
                 builder.setView(view);
-                ((TextView)view.findViewById(R.id.tvdialog_tv)).setText("앱이 존재할 시 Twitch는 LCK채널로, 네이버 TV는 LCS/LEC채널로,아프리카는 LCK채널로 이동합니다.공식 LPL 한국어 중계 방송이 없습니다."+"\n"+"만일 앱이 존재하지 않을 시 해당 앱 다운로드 링크로 이동합니다.");
+                ((TextView)view.findViewById(R.id.tvdialog_tv)).setText("앱이 존재할 시 Twitch는 LCK채널로, 네이버 TV는 LCS/LEC채널로,아프리카는 LCK채널 홈페이지로 이동합니다. 공식 LPL 한국어 중계 방송이 없습니다."+"\n"+"만일 앱이 존재하지 않을 시 해당 앱 다운로드 링크로 이동합니다.");
                 ((ImageView)view.findViewById(R.id.tvdialog_iv)).setImageDrawable(getResources().getDrawable(R.drawable.riot_logo));
                 view.findViewById(R.id.dialog_negativie).setVisibility(View.GONE);
                 view.findViewById(R.id.dialog_positive).setVisibility(View.GONE);
@@ -497,8 +496,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ss =sf.getString("twitchsave","null");
                 if(ss.equals("twitch")){
                     //이미 있는거 바로 가면되고
-                    Toast.makeText(this, "바로감", Toast.LENGTH_SHORT).show();
-                    goTv(uri,installuri,isInstalled);
+//                   당분간 설치 안되어있어도 바로 가도록 true
+                    goTv(uri,installuri,true);
                 }else{
                     //다시 alert 다이얼로그 띄우면됨
                     AlertDialog dialog = getTvDialog("twitch",uri,R.drawable.twitch_icon,installuri,isInstalled);
@@ -507,7 +506,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.fab3:
                 anim();
-                uri = "navertv://channel/lcsnv";
+                uri = "https://tv.naver.com/v/8893747";
                 installuri = "market://details?id="+"com.nhn.android.naverplayer";
                 isInstalled = IsIntalled.getInstance().isNaverTv();
                 anim();
@@ -515,28 +514,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ss =sf.getString("naversave","null");
                 if(ss.equals("naver")){
                     //이미 있는거 바로 가면되고
-                    goTv(uri,installuri,isInstalled);
+                    goTv(uri,installuri,true);
                 }else{
                     //다시 alert 다이얼로그 띄우면됨
-                    AlertDialog dialog = getTvDialog("naver",uri,R.drawable.navertv,installuri,isInstalled);
+                    AlertDialog dialog = getTvDialog("naver",uri,R.drawable.navertv,installuri,true);
                     dialog.show();
                 }
                 break;
             case R.id.fab4:
                 anim();
                 uri = "http://bj.afreecatv.com/aflol";
+                //uri= "afreeca://bj/aflol";
                 installuri = "market://details?id="+"kr.co.nowcom.mobile.afreeca";
                 isInstalled = IsIntalled.getInstance().isAfreecaTv();
-                Toast.makeText(this, isInstalled+"", Toast.LENGTH_SHORT).show();
                 anim();
                 sf = getSharedPreferences("afreecasave",MODE_PRIVATE);
                 ss =sf.getString("afreecasave","null");
                 if(ss.equals("afreeca")){
                     //이미 있는거 바로 가면되고
-                    goTv(uri,installuri,isInstalled);
+                    goTv(uri,installuri,true);
                 }else{
                     //다시 alert 다이얼로그 띄우면됨
-                    AlertDialog dialog = getTvDialog("afreeca",uri,R.drawable.afreecatv,installuri,isInstalled);
+                    AlertDialog dialog = getTvDialog("afreeca",uri,R.drawable.afreecatv,installuri,true);
                     dialog.show();
                 }
                 break;
@@ -553,6 +552,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageView.setImageDrawable(getResources().getDrawable(image));
         TextView tv = view.findViewById(R.id.tvdialog_tv);
         tv.setText(tvName+"앱으로 이동합니다. 만일 "+tvName+" 앱이 설치되지 않았다면 설치 페이지로 이동합니다.");
+        if(tvName.equals("afreeca")||tvName.equals("naver")){
+            tv.setText(tvName+"은 바로 인터넷 홈페이지로 이동합니다. 이는 앱간 주소를 알아낼 시 변경될 수 있습니다.");
+        }
         Button negative = view.findViewById(R.id.dialog_negativie);
         Button positivie = view.findViewById(R.id.dialog_positive);
         final CheckBox checkBox = view.findViewById(R.id.tvdialog_check);
@@ -567,7 +569,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
                 if(checkBox.isChecked()){
                     SharedPreferences sf = getSharedPreferences(tvName+"save",MODE_PRIVATE);
-                    Toast.makeText(MainActivity.this, sf.getString(tvName+"save","null"), Toast.LENGTH_SHORT).show();
                     if(sf.getString(tvName+"save","null").equals("null")){
                         SharedPreferences.Editor editor = sf.edit();
                         editor.putString(tvName+"save",tvName);
