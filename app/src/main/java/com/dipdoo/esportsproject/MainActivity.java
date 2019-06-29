@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
@@ -440,22 +441,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (id) {
             case R.id.fab:
                 anim();
-                Toast.makeText(this, "Floating Action Button", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.fab2:
                 anim();
                 SharedPreferences sf = getSharedPreferences("twitchsave",MODE_PRIVATE);
                 String ss =sf.getString("twitchsave","null");
                 if(ss.equals("twitch")){
-                    Toast.makeText(this, "있어요", Toast.LENGTH_SHORT).show();
+                    //이미 있는거 바로 가면되고
                 }else{
-                    Toast.makeText(this, "없어요!", Toast.LENGTH_SHORT).show();
+                    //다시 alert 다이얼로그 띄우면됨
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    alertDialog = builder.create();
+                    View view = getTvDialog("twitch");
+                    builder.setView(view);
+                    builder.show();
                 }
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                alertDialog = builder.create();
-                View view = getTvDialog("twitch");
-                builder.setView(view);
-                builder.show();
                 break;
             case R.id.fab3:
                 anim();
@@ -479,9 +479,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         negative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(alertDialog !=null){
+                Toast.makeText(MainActivity.this, "네", Toast.LENGTH_SHORT).show();
                     alertDialog.dismiss();
-                }
             }
         });
         positivie.setOnClickListener(new View.OnClickListener() {
@@ -491,24 +490,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     SharedPreferences sf = getSharedPreferences(tvName+"save",MODE_PRIVATE);
                     Toast.makeText(MainActivity.this, sf.getString(tvName+"save","null"), Toast.LENGTH_SHORT).show();
                     if(sf.getString(tvName+"save","null").equals("null")){
-                        Toast.makeText(MainActivity.this, "saddad", Toast.LENGTH_SHORT).show();
                         SharedPreferences.Editor editor = sf.edit();
                         editor.putString(tvName+"save",tvName);
                         editor.commit();
                     }
                 }else{
+                    //체크박스 체크가아니면
+                    //그냥가고
                 }
+                goTv();
+                alertDialog.dismiss();
             }
         });
-        if(tvName.equals("twitch")){
-            imageView.setImageDrawable(getResources().getDrawable(R.drawable.twitch_icon));
-            tv.setText(tvName+"로 이동합니다. 만일 "+tvName+"앱이 존재하지 않을 시 플레이스토어로 이동합니다");
-        }
         return view;
     }
 
 
     //    트위치 유투브 깔려 있는지 확인;
+
+    private void goTv(){
+        if(IsIntalled.getInstance().isTwitch()){
+            String uri = "twitch://stream/LCK_Korea";
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+            this.startActivity(i);
+//                    Intent intent = mContext.getPackageManager().getLaunchIntentForPackage("tv.twitch.android.app");
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    mContext.startActivity(inteLnt);
+        }else{
+            String url = "market://details?id=" + "tv.twitch.android.app";
+//                    String url ="market://details?id="+"kr.co.nowcom.mobile.afreeca";
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            this.startActivity(i);
+        }
+    }
 
 
 
