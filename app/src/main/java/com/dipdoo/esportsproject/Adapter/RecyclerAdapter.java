@@ -73,9 +73,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
         final VH holder = (VH) viewHolder;
         final String team1Name,team2Name,team1Img,team2Img,matchId,status;
-        if(matchList.size()<=0){
-            return;
-        }
+      
         if(matchList.get(i).getOpponents().size() == 2){
             if(matchList.get(i).getOpponents().get(0).getOpponent().getName() != null){
                 team1Name = matchList.get(i).getOpponents().get(0).getOpponent().getName();
@@ -88,22 +86,25 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
                 team1Img="null";
 
             }
-
-            team2Name = matchList.get(i).getOpponents().get(1).getOpponent().getName();
+            if(matchList.get(i).getOpponents().get(1).getOpponent().getName() != null){
+                team2Name = matchList.get(i).getOpponents().get(1).getOpponent().getName();
+            }else{
+                team2Name ="TBD";
+            }
             if(matchList.get(i).getOpponents().get(1).getOpponent().getImage_url() != null){
                 team2Img = matchList.get(i).getOpponents().get(1).getOpponent().getImage_url().toString();
-
             }else{
                 team2Img="null";
-            }
 
-        }else if(matchList.get(i).getOpponents().size() == 1){
+            }
+        }
+        else if(matchList.get(i).getOpponents().size() == 1) {
             team1Name = matchList.get(i).getOpponents().get(0).getOpponent().getName();
             team1Img = matchList.get(i).getOpponents().get(0).getOpponent().getImage_url().toString();
             team2Name = "TBD";
             team2Img = "null";
-
-        }else{
+        }
+        else{
             team1Name = "TBD";
             team2Name = "TBD";
             team1Img = "null";
@@ -176,10 +177,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter {
         });
 
 
-        if(!team1Img.equals("null")) {Glide.with(mContext).load(team1Img).into(holder.team1Img);
-        }else{holder.team1Img.setBackgroundResource(R.drawable.qusetion_mark_tbd);}
-        if(!team2Img.equals("null")) {Glide.with(mContext).load(team2Img).into(holder.team2Img);
-        }else{holder.team2Img.setBackgroundResource(R.drawable.qusetion_mark_tbd);}
+        if(team1Name.equals("TBD")) {
+            Glide.with(mContext).load(R.drawable.qusetion_mark_tbd).into(holder.team1Img);
+        }else {
+                Glide.with(mContext).load(team1Img).into(holder.team1Img);
+            }
+        if(!team2Name.equals("TBD")) {Glide.with(mContext).load(team2Img).into(holder.team2Img);
+        }else{Glide.with(mContext).load(R.drawable.qusetion_mark_tbd).into(holder.team2Img);}
 
         final String begin_at = matchList.get(i).getBegin_at();
         final String detail_begin_at = utcToLocal.dettailTime(begin_at);
