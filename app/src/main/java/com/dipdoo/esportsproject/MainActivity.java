@@ -542,6 +542,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+
     private AlertDialog getTvDialog(final String tvName, final String uri, int image, final String installuri, final boolean isInstalled){
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.tvdialog,null);

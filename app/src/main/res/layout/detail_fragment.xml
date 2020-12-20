@@ -152,7 +152,6 @@
                         android:gravity="center"
                         android:textColor="@android:color/holo_red_dark"
                         android:text="투표후 확인"
-                        android:textFontWeight="detail_team1_percent"
                         android:textSize="30sp"
                         android:textStyle="bold" />
 
